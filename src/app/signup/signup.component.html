@@ -1,0 +1,92 @@
+<div class="container">
+    <div class="card">
+      <h2 class="title">Create an Account</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Name Field -->
+        <div class="form-group">
+          <label for="name" class="label">Name</label>
+          <input 
+            id="name" 
+            formControlName="name" 
+            type="text" 
+            class="input"
+            placeholder="Enter your name">
+          <div *ngIf="submitted && f['name'].errors" class="error">
+            <small *ngIf="f['name'].errors['required']">Name is required</small>
+          </div>
+        </div>
+  
+        <!-- Phone Number Field -->
+        <div class="form-group">
+          <label for="phoneNumber" class="label">Phone Number</label>
+          <input 
+            id="phoneNumber" 
+            formControlName="phoneNumber" 
+            type="number" 
+            class="input"
+            placeholder="Enter your phone number">
+          <div *ngIf="submitted && f['phoneNumber'].errors" class="error">
+            <small *ngIf="f['phoneNumber'].errors['required']">Phone number is required</small>
+          </div>
+        </div>
+  
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email" class="label">Email</label>
+          <input 
+            id="email" 
+            formControlName="email" 
+            type="email" 
+            class="input"
+            placeholder="Enter your email">
+          <div *ngIf="submitted && f['email'].errors" class="error">
+            <small *ngIf="f['email'].errors['required']">Email is required</small>
+            <small *ngIf="f['email'].errors['email']">Invalid email format</small>
+          </div>
+        </div>
+  
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password" class="label">Password</label>
+          <input 
+            id="password" 
+            formControlName="password" 
+            type="password" 
+            class="input"
+            placeholder="Enter your password">
+          <div *ngIf="submitted && f['password'].errors" class="error">
+            <small *ngIf="f['password'].errors['required']">Password is required</small>
+            <small *ngIf="f['password'].errors['minlength']">Password too short</small>
+          </div>
+        </div>
+  
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+          <label for="confirmPassword" class="label">Confirm Password</label>
+          <input 
+            id="confirmPassword" 
+            formControlName="confirmPassword" 
+            type="password" 
+            class="input"
+            placeholder="Confirm your password">
+          <div *ngIf="submitted && f['confirmPassword'].errors" class="error">
+            <small *ngIf="f['confirmPassword'].errors['required']">Confirm password is required</small>
+          </div>
+          <div *ngIf="signupForm.errors?.['passwordMismatch']" class="error">
+            <small>Passwords do not match</small>
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <button type="submit" class="button">Sign Up</button>
+      </form>
+  
+      <div class="footer">
+        <p class="footer-text">
+          Already have an account? 
+          <a routerLink="/login" class="link">Log In</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  
