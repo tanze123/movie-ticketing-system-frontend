@@ -1,61 +1,90 @@
-<div class="flex justify-center items-start h-screen bg-blue-50">
-    <div class="flex grow shrink basis-0 self-stretch">
-      <!-- Sidebar -->
-      <div class="w-[250px] bg-white">
-        <div class="p-6">
-          <div class="flex items-center gap-2">
-            <img src="https://via.placeholder.com/52x50" alt="Course Manager Logo" class="w-10 h-10" />
-            <div class="text-[#0d1b2a] text-sm font-bold font-['Inika'] uppercase leading-[18px] tracking-wide">Course Manager</div>
-          </div>
-        </div>
-        <div class="border-t border-gray-200 px-6 py-4">
-          <button class="bg-[#2374e1] rounded-md shadow flex items-center gap-3 px-4 py-2 text-white text-sm font-medium font-['Inter'] uppercase tracking-wide">
-            <div class="w-5 h-5 flex justify-center items-center">
-              <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <span>New Entry</span>
-          </button>
-        </div>
-        <nav class="border-t border-gray-200 px-6 py-4">
-          <div class="opacity-50 text-[#07003b] text-sm font-normal font-['Poppins'] tracking-wide mb-2">MAIN</div>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100">
-            <div class="text-gray-600 text-base font-medium font-['Inter'] tracking-wide">Plan 1</div>
-          </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-100">
-            <div class="text-gray-600 text-base font-medium font-['Inter'] tracking-wide">Plan 2</div>
-          </a>
-        </nav>
-      </div>
-  
-      <!-- Main Content -->
-      <div class="grow shrink basis-0 flex flex-col gap-3 p-1">
-        <div class="bg-white  shadow-md p-4 flex justify-between items-center">
-          <div class="flex flex-col gap-1">
-            <div class="text-[#0d1b2a] text-xl font-semibold font-['Inter']">Good Morning, Franklin!</div>
-            <div class="text-[#415a77] text-base font-medium font-['Inter'] leading-normal">Here's what happening with your course manager today.</div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="relative w-10 h-10">
-              <div class="w-10 h-10 absolute left-0 top-0 rounded-full border border-slate-200"></div>
-              <div class="w-5 h-[19.2px] absolute left-[7px] top-[5.5px] flex flex-col justify-start items-start">
-                <div class="w-[10.49px] h-[10.97px] bg-red-500 rounded-[14px] border border-white"></div>
-              </div>
-            </div>
-            <div class="flex items-start gap-2">
-              <img src="https://via.placeholder.com/40x40" alt="User Avatar" class="w-10 h-10 rounded-full" />
-              <div class="flex flex-col justify-center items-start gap-1">
-                <div class="flex items-center gap-[9px]">
-                  <div class="text-[#415a77] text-sm font-medium font-['Inter']">Franklin Jr.</div>
-                </div>
-                <div class="flex flex-col justify-start items-center gap-1">
-                  <div class="text-[#778da9] text-xs font-medium font-['Inter']">Super Admin</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <div class="w-64 bg-white shadow-lg">
+    <!-- Logo Section -->
+    <div class="p-6 border-b border-gray-200">
+      <div class="flex items-center gap-3">
+        <img src="" alt="" class="w-10 h-10" />
+        <span class="text-lg font-bold text-gray-800">Ticketing System</span>
       </div>
     </div>
+
+    <!-- Navigation Menu -->
+    <nav class="p-4">
+      <div class="space-y-4">
+        <!-- Dashboard Link -->
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- Movies Link - Updated with film/movie icon -->
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+          </svg>
+          <span>Add Movies</span>
+        </a>
+
+        <!-- Customers Link - Updated with users/group icon -->
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span>Customers Details</span>
+        </a>
+
+        <!-- Theaters Link - Updated with building/location icon -->
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <span>Add new Threthers</span>
+        </a>
+
+
+        <!-- Settings Link -->
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>Settings</span>
+        </a>
+      </div>
+    </nav>
   </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 overflow-auto">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+      <div class="flex items-center justify-between px-6 py-4">
+        <div>
+          <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
+          <p class="text-sm text-gray-600">Welcome back, Admin</p>
+        </div>
+        
+        <!-- Profile Section -->
+        <div class="flex items-center gap-4">
+          <button class="p-2 text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+          </button>
+          
+          <div class="flex items-center gap-3">
+            <img src="https://ui-avatars.com/api/?name=Admin+User" alt="Profile" class="w-10 h-10 rounded-full" />
+            <div class="text-sm">
+              <p class="font-medium text-gray-700">Admin User</p>
+              <p class="text-gray-500">admin.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+  </div>
+</div>
