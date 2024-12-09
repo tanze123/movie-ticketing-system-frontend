@@ -35,8 +35,10 @@ export class SignupComponent {
         Validators.required, 
       ]],
       phoneNumber: ['', [
-        Validators.required, 
+        Validators.required,
+        Validators.pattern(/^\+975\d{8}$/) // Validates the phone number format
       ]],
+      
       email: ['', [
         Validators.required, 
         Validators.email
@@ -50,6 +52,19 @@ export class SignupComponent {
       validators: this.passwordMatchValidator 
     });
   }
+
+  onPhoneNumberInput(event: any) {
+    let value = event.target.value;
+  
+    // Ensure the value starts with +975 and is a valid length
+    if (value.startsWith('+975') && value.length <= 12) {
+      this.signupForm.get('phoneNumber')?.setValue(value);
+    } else {
+      // Otherwise, allow only digits after +975
+      this.signupForm.get('phoneNumber')?.setValue('+975' + value.replace(/[^0-9]/g, '').slice(0, 8));
+    }
+  }
+  
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');
