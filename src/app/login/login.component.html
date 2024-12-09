@@ -1,18 +1,23 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
-    <h2 class="text-2xl font-bold text-gray-700 text-center mb-6">Sign In</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+<div class="min-h-screen flex items-center justify-center bg-[#F1B434]">
+  <div class="bg-[#1B355E] shadow-2xl rounded-lg p-8 w-full max-w-md transform transition-all duration-500 hover:scale-105">
+    <!-- Header with Custom Styling -->
+    <div class="flex items-center justify-center -mt-12">
+      <div class="bg-[#F1B434] rounded-full h-24 w-24 flex items-center justify-center">
+        <h2 class="text-2xl font-bold text-[#1B355E]">Log In</h2>
+      </div>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="mt-8">
 
       <!-- Email Field -->
       <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
         <input 
           id="email" 
           formControlName="email" 
           type="email" 
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          class="w-full px-3 py-2 border rounded-lg text-sm shadow-sm focus:outline-none focus:ring focus:ring-[#143C] focus:border-[#143C]"
           placeholder="Enter your email">
-        <div *ngIf="submitted && f['email'].errors" class="text-sm text-red-500 mt-1">
+        <div *ngIf="submitted && f['email'].errors" class="text-xs text-red-500 mt-1">
           <small *ngIf="f['email'].errors['required']">Email is required</small>
           <small *ngIf="f['email'].errors['email']">Invalid email format</small>
         </div>
@@ -20,14 +25,14 @@
 
       <!-- Password Field -->
       <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
         <input 
           id="password" 
           formControlName="password" 
           type="password" 
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          class="w-full px-3 py-2 border rounded-lg text-sm shadow-sm focus:outline-none focus:ring focus:ring-[#143C] focus:border-[#143C]"
           placeholder="Enter your password">
-        <div *ngIf="submitted && f['password'].errors" class="text-sm text-red-500 mt-1">
+        <div *ngIf="submitted && f['password'].errors" class="text-xs text-red-500 mt-1">
           <small *ngIf="f['password'].errors['required']">Password is required</small>
           <small *ngIf="f['password'].errors['minlength']">Password too short</small>
         </div>
@@ -36,8 +41,8 @@
       <!-- Submit Button -->
       <button 
         type="submit" 
-        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-        Sign Up
+        class="w-full bg-[#F1B434] text-white py-2 rounded-lg text-sm font-medium transform transition-all duration-300 hover:bg-[#f19f34] hover:scale-105 focus:ring focus:ring-[#534C]">
+        Log In
       </button>
     </form>
 
@@ -46,10 +51,11 @@
       {{ errorMessage }}
     </div>
 
+    <!-- Footer Links -->
     <div class="text-center mt-4">
-      <p class="text-sm text-gray-600">
+      <p class="text-sm text-gray-300">
         Don't have an account? 
-        <a routerLink="/signup" class="text-blue-600 hover:underline">Sign Up</a>
+        <a routerLink="/signup" class="text-[#F1B434] hover:underline">Sign Up</a>
       </p>
     </div>
   </div>
