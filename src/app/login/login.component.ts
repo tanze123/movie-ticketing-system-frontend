@@ -63,6 +63,10 @@ export class LoginComponent {
 
     this.authService.login(loginData).subscribe({
       next: (response) => {
+        this.authService.setToken(response?.accessToken);
+        if (response.refreshToken) {
+          this.authService.setRefreshToken(response.refreshToken);
+        }
         this.toastr.success('Login successful', 'Success');
         this.router.navigate(['/dashboard']);
       },
