@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginModel } from '../models/login.model';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { LoginService } from '../services/login.service';
 import { RouterLink, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 
 
@@ -23,7 +23,7 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private loginService: LoginService,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
   ) {
@@ -40,6 +40,15 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+    // Check if already authenticated
+    this.authService.validateToken().subscribe(isValid => {
+      if (isValid) {
+        this.router.navigate(['/dashboard']);
+      }
+    });
+  }
+
   onSubmit(): void {
     this.submitted = true;
 
@@ -52,7 +61,7 @@ export class LoginComponent {
       password: this.loginForm.value.password
     };
 
-    this.loginService.login(loginData).subscribe({
+    this.authService.login(loginData).subscribe({
       next: (response) => {
         this.toastr.success('Login successful', 'Success');
         this.router.navigate(['/dashboard']);
