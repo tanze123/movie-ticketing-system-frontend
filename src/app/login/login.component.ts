@@ -75,7 +75,6 @@ export class LoginComponent {
       }
     });
   }
-
   // Getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 }
