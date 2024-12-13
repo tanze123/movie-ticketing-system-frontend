@@ -1,9 +1,10 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
