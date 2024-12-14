@@ -31,13 +31,15 @@
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center px-4 py-2 text-white hover:bg-[#F1B434] hover:text-[#1B355E] rounded-lg mx-2 transition-colors duration-200">
+          <a routerLink="/dashboard/customer-details" 
+          routerLinkActive="bg-[#F1B434] text-[#1B355E]"
+          [routerLinkActiveOptions]="{exact: true}" class="flex items-center px-4 py-2 text-white hover:bg-[#F1B434] hover:text-[#1B355E] rounded-lg mx-2 transition-colors duration-200">
             <span class="material-icons">group</span>
             <span [ngClass]="{'hidden': isSidebarCollapsed}" class="ml-3">Customer Details</span>
           </a>
         </li>
         <li>
-          <a href="#" class="flex items-center px-4 py-2 text-white hover:bg-[#F1B434] hover:text-[#1B355E] rounded-lg mx-2 transition-colors duration-200">
+          <a class="flex items-center px-4 py-2 text-white hover:bg-[#F1B434] hover:text-[#1B355E] rounded-lg mx-2 transition-colors duration-200">
             <span class="material-icons">confirmation_number</span>
             <span [ngClass]="{'hidden': isSidebarCollapsed}" class="ml-3">Tickets</span>
           </a>
