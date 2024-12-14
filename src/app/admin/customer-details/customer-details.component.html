@@ -1,0 +1,79 @@
+<div class="p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-2xl font-semibold text-[#1B355E]">Customer Details</h2>
+      <div class="flex space-x-4">
+        <div class="relative">
+          <span class="absolute left-3 top-2.5 text-gray-400 material-icons">search</span>
+          <input 
+            type="text" 
+            placeholder="Search customers..." 
+            class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] bg-white text-[#1B355E]">
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B355E]"></div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      {{ error }}
+    </div>
+
+    <!-- Users Table -->
+    <div *ngIf="users.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="table-container">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-[#F1B434] text-[#1B355E]">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Name</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Email</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Phone Number</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let user of users" class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 flex-shrink-0">
+                    <div class="h-10 w-10 rounded-full bg-[#1B355E] flex items-center justify-center">
+                      <span class="text-white">{{ user.name.charAt(0) }}</span>
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ user.name }}</div>
+                    <div class="text-sm text-gray-500">ID: {{ user.id }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ user.email }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ user.phoneNumber }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button class="text-[#1B355E] hover:text-[#F1B434] mr-3">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button class="text-red-600 hover:text-red-900">
+                  <span class="material-icons">delete</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && users.length === 0" class="text-center py-8">
+      <div class="text-gray-500">No customers found</div>
+    </div>
+  </div>
+</div>
