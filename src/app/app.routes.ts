@@ -40,6 +40,10 @@ export const routes: Routes = [
             {
                 path: 'add-theatres',
                 component: AddTheatreDialogComponent
+            }, 
+            {
+                path: 'edit-theatres',
+                component: AddTheatreDialogComponent
             }
         ]
     },

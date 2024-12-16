@@ -6,6 +6,8 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ApiService } from '../../../api.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddTheatreDialogComponent } from '../add-theatre-dialog/add-theatre-dialog.component';
+import { EditTheatreDialogComponent } from '../edit-theatre-dialog/edit-theatre-dialog.component';
+import Swal from 'sweetalert2';
 
 interface Theatres {
   id: number;
@@ -98,4 +100,73 @@ export class ViewTheatreComponent implements OnInit{
       }
     });
   }
+
+  openEditDialog(theatre: Theatres): void {
+    const dialogRef = this.dialog.open(EditTheatreDialogComponent, {
+      width: '800px',
+      data: theatre
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchTheatres(); // Refresh the theatre list
+      }
+    });
+  }
+
+  deleteTheatre(theatre: Theatres): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You want to delete ${theatre.name}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1B355E',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const headers = {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        };
+  
+        // Specify responseType as text
+        this.apiService.delete(`/theatres/${theatre.id}`, { 
+          headers, 
+          responseType: 'text' 
+        }).subscribe({
+          next: (response) => {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Theatre has been deleted successfully.',
+              icon: 'success',
+              confirmButtonColor: '#1B355E'
+            });
+            this.fetchTheatres(); // Refresh the list
+          },
+          error: (error) => {
+            // Check if it's actually a successful response
+            if (error.status === 200) {
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Theatre has been deleted successfully.',
+                icon: 'success',
+                confirmButtonColor: '#1B355E'
+              });
+              this.fetchTheatres(); // Refresh the list
+            } else {
+              Swal.fire({
+                title: 'Error!',
+                text: error.error?.message || 'Failed to delete theatre',
+                icon: 'error',
+                confirmButtonColor: '#1B355E'
+              });
+            }
+          }
+        });
+      }
+    });
+  }
+  
 }

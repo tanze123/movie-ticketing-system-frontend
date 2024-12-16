@@ -25,6 +25,6 @@ export const appConfig: ApplicationConfig = {
     }), provideAnimationsAsync(),
 
     provideAnimations(), // Required for Material Dialog
-    importProvidersFrom(MatDialogModule)
+    importProvidersFrom(MatDialogModule), provideAnimationsAsync()
   ]
 };
