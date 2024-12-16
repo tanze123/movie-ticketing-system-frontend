@@ -1,0 +1,135 @@
+<div class="p-6 max-w-4xl animate-dialog-enter">
+    <div class="p-6 max-w-4xl dialog-container">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-[#1B355E] flex items-center">
+                <span class="material-icons mr-2 text-[#F1B434]">theater_comedy</span>
+                Add New Theatre
+            </h2>
+            <button 
+                (click)="onCancel()" 
+                class="close-button text-gray-500 hover:text-red-500 transition-colors duration-300 p-2">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        <!-- Rest of your existing dialog content -->
+    </div>
+
+    <form [formGroup]="theatreForm" (ngSubmit)="onSubmit()">
+        <!-- Grid Container for Two Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Left Column -->
+            <div class="space-y-6">
+                <!-- Theatre Name -->
+                <div class="form-group animate-fade-in" style="animation-delay: 100ms;">
+                    <label for="name" class="block text-sm font-medium text-[#1B355E] mb-2">
+                        <span class="material-icons mr-1 align-middle text-[#F1B434]">local_movies</span>
+                        Theatre Name
+                    </label>
+                    <input
+                        id="name"
+                        type="text"
+                        formControlName="name"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] text-[#1B355E] transition-all duration-300 hover:border-[#F1B434]"
+                        placeholder="Enter theatre name">
+                    <div *ngIf="theatreForm.get('name')?.touched && theatreForm.get('name')?.invalid" 
+                        class="text-red-500 text-xs mt-1 animate-shake">
+                        Theatre name is required
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group animate-fade-in" style="animation-delay: 200ms;">
+                    <label for="location" class="block text-sm font-medium text-[#1B355E] mb-2">
+                        <span class="material-icons mr-1 align-middle text-[#F1B434]">location_on</span>
+                        Location
+                    </label>
+                    <input
+                        id="location"
+                        type="text"
+                        formControlName="location"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] text-[#1B355E] transition-all duration-300 hover:border-[#F1B434]"
+                        placeholder="Enter theatre location">
+                    <div *ngIf="theatreForm.get('location')?.touched && theatreForm.get('location')?.invalid" 
+                        class="text-red-500 text-xs mt-1 animate-shake">
+                        Location is required
+                    </div>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="form-group animate-fade-in" style="animation-delay: 300ms;">
+                    <label for="contactDetails" class="block text-sm font-medium text-[#1B355E] mb-2">
+                        <span class="material-icons mr-1 align-middle text-[#F1B434]">contact_phone</span>
+                        Contact Details
+                    </label>
+                    <input
+                        id="contactDetails"
+                        type="text"
+                        formControlName="contactDetails"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] text-[#1B355E] transition-all duration-300 hover:border-[#F1B434]"
+                        placeholder="Enter contact number">
+                    <div *ngIf="theatreForm.get('contactDetails')?.touched && theatreForm.get('contactDetails')?.invalid" 
+                        class="text-red-500 text-xs mt-1 animate-shake">
+                        Contact details are required
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Seating Capacity -->
+                <div class="form-group animate-fade-in" style="animation-delay: 400ms;">
+                    <label for="seatingCapacity" class="block text-sm font-medium text-[#1B355E] mb-2">
+                        <span class="material-icons mr-1 align-middle text-[#F1B434]">event_seat</span>
+                        Seating Capacity
+                    </label>
+                    <input
+                        id="seatingCapacity"
+                        type="number"
+                        formControlName="seatingCapacity"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] text-[#1B355E] transition-all duration-300 hover:border-[#F1B434]"
+                        placeholder="Enter seating capacity">
+                    <div *ngIf="theatreForm.get('seatingCapacity')?.touched && theatreForm.get('seatingCapacity')?.invalid" 
+                        class="text-red-500 text-xs mt-1 animate-shake">
+                        Valid seating capacity is required
+                    </div>
+                </div>
+
+                <!-- Facilities -->
+                <div class="form-group animate-fade-in" style="animation-delay: 500ms;">
+                    <label for="facilities" class="block text-sm font-medium text-[#1B355E] mb-2">
+                        <span class="material-icons mr-1 align-middle text-[#F1B434]">room_service</span>
+                        Facilities
+                    </label>
+                    <textarea
+                        id="facilities"
+                        formControlName="facilities"
+                        rows="5"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] text-[#1B355E] transition-all duration-300 hover:border-[#F1B434]"
+                        placeholder="Enter available facilities (e.g., AC, Parking, Food Court)"></textarea>
+                    <div *ngIf="theatreForm.get('facilities')?.touched && theatreForm.get('facilities')?.invalid" 
+                        class="text-red-500 text-xs mt-1 animate-shake">
+                        Facilities information is required
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons - Full Width -->
+        <div class="flex justify-end space-x-4 pt-6 mt-6 border-t animate-fade-in" style="animation-delay: 600ms;">
+            <button
+                type="button"
+                (click)="onCancel()"
+                class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-300 flex items-center">
+                <span class="material-icons mr-2">close</span>
+                Cancel
+            </button>
+            <button
+                type="submit"
+                [disabled]="loading || theatreForm.invalid"
+                class="flex items-center px-6 py-2 bg-[#F1B434] text-[#1B355E] rounded-lg hover:bg-[#1B355E] hover:text-[#F1B434] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105">
+                <span class="material-icons mr-2">add_circle</span>
+                <span>{{ loading ? 'Adding...' : 'Add Theatre' }}</span>
+            </button>
+        </div>
+    </form>
+</div>

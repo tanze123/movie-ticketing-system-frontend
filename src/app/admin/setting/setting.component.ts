@@ -58,7 +58,6 @@ export class SettingComponent implements OnInit {
 
           if (response.body) {
             this.userInfo = response.body.data?.user;
-            this.toastr.success('User information loaded successfully');
           } else {
             this.error = 'No data received from server';
             this.toastr.error('No data received from server');

@@ -6,6 +6,8 @@ import { SettingComponent } from './admin/setting/setting.component';
 import { DashboardContentComponent } from './admin/dashboard-content/dashboard-content.component';
 import { CustomerDetailsComponent } from './admin/customer-details/customer-details.component';
 import { Routes } from '@angular/router';
+import { ViewTheatreComponent } from './admin/theatre/view-theatre/view-theatre.component';
+import { AddTheatreDialogComponent } from './admin/theatre/add-theatre-dialog/add-theatre-dialog.component';
 
 export const routes: Routes = [
     {path:'', component: LoginComponent},
@@ -30,6 +32,14 @@ export const routes: Routes = [
             {
                 path: 'customer-details',
                 component: CustomerDetailsComponent
+            },
+            {
+                path: 'view-theatres',
+                component: ViewTheatreComponent
+            },
+            {
+                path: 'add-theatres',
+                component: AddTheatreDialogComponent
             }
         ]
     },
