@@ -1,0 +1,93 @@
+<div class="p-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-6 flex justify-between items-center">
+        <h2 class="text-2xl font-semibold text-[#1B355E]">Theatres Details</h2>
+        <div class="flex space-x-4 items-center">
+          <!-- Search Box -->
+          <div class="relative">
+            <span class="absolute left-3 top-2.5 text-gray-400 material-icons">search</span>
+            <input 
+              type="text" 
+              [(ngModel)]="searchTerm"
+              placeholder="Search theatres..." 
+              class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] bg-white text-[#1B355E]">
+          </div>
+          
+          <!-- Add Theatre Button -->
+          <button 
+            (click)="openAddTheatreDialog()"
+            class="flex items-center space-x-2 bg-[#F1B434] hover:bg-[#1B355E] text-[#1B355E] hover:text-[#F1B434] px-4 py-2 rounded-lg transition-colors duration-300">
+            <span class="material-icons">add</span>
+            <span>Add Theatre</span>
+            </button>
+        </div>
+      </div>
+  
+      <!-- Loading State -->
+      <div *ngIf="loading" class="flex justify-center items-center py-8">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B355E]"></div>
+      </div>
+  
+      <!-- Error State -->
+      <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ error }}
+      </div>
+  
+      <!-- Theatres Table -->
+      <div *ngIf="theatres.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="table-container">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-[#F1B434] text-[#1B355E]">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Location</th>
+                <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Numbers of Seats</th>
+                <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Facilities</th>
+                <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Contact Info</th>
+                <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let theatre of filterTheatres()" class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">{{ theatre.name }}</div>
+                      <div class="text-sm text-gray-500">ID: {{ theatre.id }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ theatre.location }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ theatre.seatingCapacity }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ theatre.facilities }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ theatre.contactDetails }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <button class="text-[#1B355E] hover:text-[#F1B434] mr-3">
+                    <span class="material-icons">edit</span>
+                  </button>
+                  <button class="text-red-600 hover:text-red-900">
+                    <span class="material-icons">delete</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <!-- Empty State -->
+      <div *ngIf="!loading && theatres.length === 0" class="text-center py-8">
+        <div class="text-gray-500">No Theatres found</div>
+      </div>
+    </div>
+    
+  </div>
