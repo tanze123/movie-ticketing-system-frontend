@@ -3,14 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  // Add any other user properties your backend returns
-}
+import { User } from '../../core/models/user.model';
 
 interface RestResponse {
   success: boolean;

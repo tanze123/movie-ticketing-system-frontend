@@ -3,11 +3,6 @@
     <div class="p-6">
       <h2 class="text-2xl font-semibold text-[#1B355E] mb-6">Profile Settings</h2>
 
-      <!-- Error State -->
-      <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        {{ error }}
-      </div>
-
       <!-- User Information -->
       <div *ngIf="userInfo" class="space-y-6">
         <!-- Profile Header -->
@@ -45,7 +40,7 @@
           </button>
 
           <!-- Logout Button -->
-          <button 
+          <button (click)="handleLogout()"
             class="bg-red-600 text-white px-6 py-2 font-medium rounded-lg shadow-md hover:bg-red-700 transition-all duration-200">
             Logout
           </button>

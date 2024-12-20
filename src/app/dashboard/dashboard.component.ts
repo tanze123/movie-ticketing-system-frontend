@@ -1,36 +1,87 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { User } from '../core/models/user.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink, RouterOutlet, RouterLinkActive],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
-
+export class DashboardComponent implements OnInit {
   isSidebarCollapsed = false;
   isMobile = false;
+  isProfileMenuOpen = false;
+  currentUser$: Observable<User | null>;
+  loading = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.checkScreenSize();
-    }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {
+    this.currentUser$ = this.authService.getCurrentUser();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.checkScreenSize();
+    this.checkScreenSize();
+  }
+
+  // Close dropdown when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.relative')) {
+      this.isProfileMenuOpen = false;
     }
   }
 
-  private checkScreenSize(): void {
-    this.isMobile = window.innerWidth < 768;
+  ngOnInit() {
+    this.checkScreenSize();
   }
 
-  toggleSidebar(): void {
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth < 768;
+    if (this.isMobile) {
+      this.isSidebarCollapsed = true;
+    }
+  }
+
+  toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+
+  toggleProfileMenu(event: Event) {
+    event.stopPropagation();
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
+  }
+
+  async logout() {
+    try {
+      this.loading = true;
+      await this.authService.logout();
+      this.toastr.success('Logged out successfully');
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Logout error:', error);
+      this.toastr.error('Failed to logout');
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  // Method to handle keydown events for accessibility
+  @HostListener('keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.isProfileMenuOpen && event.key === 'Escape') {
+      this.isProfileMenuOpen = false;
+    }
   }
 }

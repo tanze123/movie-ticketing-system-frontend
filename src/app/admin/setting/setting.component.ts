@@ -3,14 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AuthService } from '@core/services/auth.service';
+import { User } from '@core/models/user.model';
+import { Observable } from 'rxjs';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-}
 
 interface RestResponse {
   success: boolean;
@@ -31,11 +28,16 @@ export class SettingComponent implements OnInit {
   userInfo: User | null = null;
   loading = false;
   error: string | null = null;
+  currentUser$: Observable<User | null>;
 
   constructor(
     private apiService: ApiService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.currentUser$ = this.authService.getCurrentUser();
+  }
 
   ngOnInit(): void {
     this.fetchUserInfo();
@@ -71,5 +73,11 @@ export class SettingComponent implements OnInit {
         this.toastr.error('Failed to fetch user information');
       }
     });
+  }
+
+  handleLogout(): void {
+    this.authService.logout();
+    this.toastr.success('Logged out successfully');
+    this.router.navigate(['login']);
   }
 }

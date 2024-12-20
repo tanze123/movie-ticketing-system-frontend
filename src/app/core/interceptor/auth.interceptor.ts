@@ -1,9 +1,9 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -30,13 +30,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       catchError(error => {
         // Handle 401 (Unauthorized) errors
         if (error.status === 401) {
-          // Attempt to refresh token
+          // Attempt to refresh token 
           return authService.refreshToken().pipe(
             switchMap((newTokenResponse: any) => {
               // Clone the request with the new token
               const retryReq = req.clone({
                 setHeaders: {
-                  Authorization: `Bearer ${newTokenResponse.access_token}`
+                  Authorization: `Bearer ${newTokenResponse?.accessToken}`
                 }
               });
               
@@ -45,6 +45,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             }),
             catchError((refreshError) => {
               // If refresh fails, logout and redirect to login
+               // If refresh fails, logout and redirect to login
+               console.log('Token refresh failed:', refreshError);
               authService.logout();
               router.navigate(['/login']);
               return throwError(() => refreshError);
