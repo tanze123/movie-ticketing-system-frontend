@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../../api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { User } from '../../core/models/user.model';
+import { User } from '../../../core/models/user.model';
+import { EditCutomerDetailsComponent } from '../edit-cutomer-details/edit-cutomer-details.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 interface RestResponse {
   success: boolean;
@@ -16,7 +19,7 @@ interface RestResponse {
 @Component({
   selector: 'app-customer-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, MatDialogModule],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.css'
 })
@@ -24,10 +27,12 @@ export class CustomerDetailsComponent implements OnInit {
   users: User[] = [];
   loading = false;
   error: string | null = null;
+  searchTerm: string = '';
 
   constructor(
     private apiService: ApiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -60,4 +65,33 @@ export class CustomerDetailsComponent implements OnInit {
       }
     });
   }
+
+   openEditDialog(profile: User): void {
+      const dialogRef = this.dialog.open(EditCutomerDetailsComponent, {
+        width: '800px',
+        data: profile
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.fetchUsers(); // Refresh the theatre list
+        }
+      });
+    }
+
+    // Search functionality
+  filterProfile(): User[] {
+    if (!this.searchTerm) return this.users;
+    
+    return this.users.filter(user => 
+      user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+
+  refreshProfile(): void {
+    this.fetchUsers();
+  }
+
 }

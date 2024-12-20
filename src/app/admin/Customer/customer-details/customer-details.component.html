@@ -8,6 +8,7 @@
           <span class="absolute left-3 top-2.5 text-gray-400 material-icons">search</span>
           <input 
             type="text" 
+            [(ngModel)]="searchTerm"
             placeholder="Search customers..." 
             class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] bg-white text-[#1B355E]">
         </div>
@@ -32,7 +33,8 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr *ngFor="let user of users" class="hover:bg-gray-50">
+            <tr  *ngFor="let user of filterProfile()" 
+            class="hover:bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="h-10 w-10 flex-shrink-0">
@@ -53,7 +55,7 @@
                 <div class="text-sm text-gray-900">{{ user.phoneNumber }}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button class="text-[#1B355E] hover:text-[#F1B434] mr-3">
+                <button (click)="openEditDialog(user)" class="text-[#1B355E] hover:text-[#F1B434] mr-3">
                   <span class="material-icons">edit</span>
                 </button>
                 <button class="text-red-600 hover:text-red-900">

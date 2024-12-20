@@ -3,12 +3,13 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardContentComponent } from './admin/dashboard-content/dashboard-content.component';
-import { CustomerDetailsComponent } from './admin/customer-details/customer-details.component';
+import { CustomerDetailsComponent } from './admin/Customer/customer-details/customer-details.component';
 import { Routes } from '@angular/router';
 import { ViewTheatreComponent } from './admin/theatre/view-theatre/view-theatre.component';
 import { AddTheatreDialogComponent } from './admin/theatre/add-theatre-dialog/add-theatre-dialog.component';
 import { EditProfileComponent } from './admin/settings/edit-profile/edit-profile.component';
 import { SettingComponent } from './admin/settings/view-setting/setting.component';
+import { EditCutomerDetailsComponent } from './admin/Customer/edit-cutomer-details/edit-cutomer-details.component';
 
 export const routes: Routes = [
     {path:'', component: LoginComponent},
@@ -49,6 +50,10 @@ export const routes: Routes = [
             {
                 path: 'editProfile',
                 component: EditProfileComponent
+            },
+            {
+                path: 'editCustomer',
+                component: EditCutomerDetailsComponent
             }
         ]
     },
