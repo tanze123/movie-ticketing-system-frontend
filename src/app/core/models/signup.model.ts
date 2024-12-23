@@ -4,4 +4,5 @@ export interface SignupModel {
     email: String;
     password: string;
     confirmPassword?: string;
+    isActive?: String;
 }
