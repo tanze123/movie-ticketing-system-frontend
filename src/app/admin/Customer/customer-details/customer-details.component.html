@@ -9,6 +9,7 @@
           <input 
             type="text" 
             [(ngModel)]="searchTerm"
+            (ngModelChange)="searchTermSubject.next($event)" 
             placeholder="Search customers..." 
             class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] bg-white text-[#1B355E]">
         </div>
@@ -20,8 +21,13 @@
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B355E]"></div>
     </div>
 
+    <!-- Error State -->
+    <div *ngIf="error" class="text-red-600 text-center py-4">
+      {{ error }}
+    </div>
+
     <!-- Users Table -->
-    <div *ngIf="users.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
+    <div *ngIf="!loading && users && users.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
       <div class="table-container">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-[#F1B434] text-[#1B355E]">
@@ -29,12 +35,17 @@
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Name</th>
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Email</th>
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Phone Number</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Status</th>
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr  *ngFor="let user of filterProfile()" 
-            class="hover:bg-gray-50">
+            <tr *ngFor="let user of filteredUsers" 
+              class="transition-colors duration-200 ease-in-out"
+              [ngClass]="{
+                'bg-gray-50 hover:bg-gray-100': user.enabled,
+                'bg-red-50 hover:bg-red-100': !user.enabled
+              }">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="h-10 w-10 flex-shrink-0">
@@ -43,23 +54,47 @@
                     </div>
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ user.name }}</div>
+                    <div class="text-sm font-medium" [ngClass]="{'text-gray-900': user.enabled, 'text-gray-600': !user.enabled}">
+                      {{ user.name }}
+                    </div>
                     <div class="text-sm text-gray-500">ID: {{ user.id }}</div>
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ user.email }}</div>
+                <div class="text-sm" [ngClass]="{'text-gray-900': user.enabled, 'text-gray-600': !user.enabled}">
+                  {{ user.email }}
+                </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ user.phoneNumber }}</div>
+                <div class="text-sm" [ngClass]="{'text-gray-900': user.enabled, 'text-gray-600': !user.enabled}">
+                  {{ user.phoneNumber }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <button 
+                    (click)="toggleUserStatus($event, user)"  
+                    class="relative inline-flex items-center h-6 rounded-full w-11 focus:outline-none transition-colors duration-300 ease-in-out"
+                    [ngClass]="{'bg-[#F1B434]': user.enabled, 'bg-gray-200': !user.enabled}"
+                  >
+                    <span class="sr-only">Toggle user status</span>
+                    <span
+                      class="inline-block w-4 h-4 transform bg-white rounded-full shadow-md transition-transform duration-300 ease-in-out"
+                      [ngClass]="{'translate-x-6': user.enabled, 'translate-x-1': !user.enabled}"
+                    ></span>
+                  </button>
+                  <span 
+                    class="ml-2 text-sm transition-colors duration-300"
+                    [ngClass]="{'text-[#F1B434]': user.enabled, 'text-gray-500': !user.enabled}"
+                  >
+                    {{ user.enabled ? 'Active' : 'Inactive' }}
+                  </span>
+                </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button (click)="openEditDialog(user)" class="text-[#1B355E] hover:text-[#F1B434] mr-3">
                   <span class="material-icons">edit</span>
-                </button>
-                <button class="text-red-600 hover:text-red-900">
-                  <span class="material-icons">delete</span>
                 </button>
               </td>
             </tr>
@@ -69,7 +104,7 @@
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="!loading && users.length === 0" class="text-center py-8">
+    <div *ngIf="!loading && (!users || users.length === 0)" class="text-center py-8">
       <div class="text-gray-500">No customers found</div>
     </div>
   </div>

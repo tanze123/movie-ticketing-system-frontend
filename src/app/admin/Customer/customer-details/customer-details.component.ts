@@ -2,17 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../api.service';
 import { ToastrService } from 'ngx-toastr';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from '../../../core/models/user.model';
-import { EditCutomerDetailsComponent } from '../edit-cutomer-details/edit-cutomer-details.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { EditCutomerDetailsComponent } from '../edit-cutomer-details/edit-cutomer-details.component';
 
 interface RestResponse {
   success: boolean;
   message?: string;
   data: {
-    user: User[];
+    enabledUsers: User[];
+    disabledUsers: User[];
   };
 }
 
@@ -28,6 +31,8 @@ export class CustomerDetailsComponent implements OnInit {
   loading = false;
   error: string | null = null;
   searchTerm: string = '';
+  filteredUsers: User[] = [];
+  searchTermSubject: Subject<string> = new Subject<string>();
 
   constructor(
     private apiService: ApiService,
@@ -36,6 +41,12 @@ export class CustomerDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.searchTermSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((searchTerm) => {
+      this.onSearchChange(searchTerm);
+    });
     this.fetchUsers();
   }
 
@@ -51,8 +62,12 @@ export class CustomerDetailsComponent implements OnInit {
       next: (event) => {
         if (event.type === HttpEventType.Response) {
           const response = event as HttpResponse<RestResponse>;
-          if (response.body && response.body.data && response.body.data.user) {
-            this.users = response.body.data.user;
+          if (response.body && response.body.data) {
+            this.users = [
+              ...(response.body.data.enabledUsers || []),
+              ...(response.body.data.disabledUsers || [])
+            ];
+            this.filteredUsers = this.users;
           }
           this.loading = false;
         }
@@ -66,32 +81,46 @@ export class CustomerDetailsComponent implements OnInit {
     });
   }
 
-   openEditDialog(profile: User): void {
-      const dialogRef = this.dialog.open(EditCutomerDetailsComponent, {
-        width: '800px',
-        data: profile
-      });
-    
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.fetchUsers(); // Refresh the theatre list
-        }
-      });
-    }
+  openEditDialog(profile: User): void {
+    const dialogRef = this.dialog.open(EditCutomerDetailsComponent, {
+      width: '800px',
+      data: profile
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchUsers(); // Refresh the list
+      }
+    });
+  }
 
-    // Search functionality
-  filterProfile(): User[] {
-    if (!this.searchTerm) return this.users;
-    
-    return this.users.filter(user => 
-      user.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+  onSearchChange(searchTerm: string): void {
+    this.filteredUsers = this.users.filter(user => 
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 
+  toggleUserStatus(event: Event, user: User): void {
+    event.preventDefault();
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    });
+    
+    const endpoint = `/users/${user.id}/${user.enabled ? 'disable' : 'enable'}`;
+    const originalState = user.enabled;
 
-  refreshProfile(): void {
-    this.fetchUsers();
+    user.enabled = !user.enabled;
+    this.apiService.put<any>(endpoint, {}, { headers }).subscribe({
+      next: (response) => {
+        this.toastr.success(`User ${user.enabled ? 'activated' : 'deactivated'} successfully`);
+      },
+      error: (error) => {
+        console.error('Error response:', error);
+        user.enabled = originalState;
+        this.toastr.error('Failed to update user status');
+      }
+    });
   }
-
 }
