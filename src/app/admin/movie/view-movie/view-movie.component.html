@@ -1,0 +1,94 @@
+<div class="p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-2xl font-semibold text-[#1B355E]">Movie Details</h2>
+      <div class="flex space-x-4 items-center">
+        <!-- Search Box -->
+        <div class="relative">
+          <span class="absolute left-3 top-2.5 text-gray-400 material-icons">search</span>
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm"
+            placeholder="Search movies..." 
+            class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] bg-white text-[#1B355E]">
+        </div>
+        
+        <!-- Add Theatre Button -->
+        <button 
+          (click)="openAddMovieDialog()"
+          class="flex items-center space-x-2 bg-[#F1B434] hover:bg-[#1B355E] text-[#1B355E] hover:text-[#F1B434] px-4 py-2 rounded-lg transition-colors duration-300">
+          <span class="material-icons">add</span>
+          <span>Add Movie</span>
+          </button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B355E]"></div>
+    </div>
+
+    <!-- Theatres Table -->
+    <div *ngIf="movies.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="table-container">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-[#F1B434] text-[#1B355E]">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Movie name</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Genre</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Release Date</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Duration</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Description</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Theatre</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let movie of filterMovies()" class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ movie.movieName }}</div>
+                    <div class="text-sm text-gray-500">ID: {{ movie.id }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ movie.genre }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ movie.releaseDate }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ movie.duration }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ movie.description }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{ movie.theatre.name }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button 
+                
+                class="text-blue-600 hover:text-blue-800 mr-2">
+                <span class="material-icons">edit</span>
+            </button>
+                <button  class="text-red-600 hover:text-red-900">
+                  <span class="material-icons">delete</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && movies.length === 0" class="text-center py-8">
+      <div class="text-gray-500">No Movie found</div>
+    </div>
+  </div>
+  
+</div>

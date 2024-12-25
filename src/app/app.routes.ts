@@ -12,6 +12,8 @@ import { SettingComponent } from './admin/settings/view-setting/setting.componen
 import { EditCutomerDetailsComponent } from './admin/Customer/edit-cutomer-details/edit-cutomer-details.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ViewMovieComponent } from './admin/movie/view-movie/view-movie.component';
+import { AddMovieDialogComponent } from './admin/movie/add-movie-dialog/add-movie-dialog.component';
 
 export const routes: Routes = [
     {path:'', component: LoginComponent},
@@ -56,6 +58,14 @@ export const routes: Routes = [
             {
                 path: 'editCustomer',
                 component: EditCutomerDetailsComponent
+            },
+            {
+                path: 'viewMovie',
+                component: ViewMovieComponent
+            },
+            {
+                path: 'addMovie',
+                component: AddMovieDialogComponent
             }
         ]
     },

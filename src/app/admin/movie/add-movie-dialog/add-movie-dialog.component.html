@@ -1,0 +1,95 @@
+<div class="p-6 max-w-4xl animate-dialog-enter">
+    <div class="p-6 max-w-4xl dialog-container">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-[#1B355E] flex items-center">
+                Add movie
+            </h2>
+            <button 
+                (click)="onCancel()" 
+                class="close-button text-gray-500 hover:text-red-500 transition-colors duration-300 p-2">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+
+  <form [formGroup]="movieForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <!-- Movie Name -->
+    <div>
+      <label for="name" class="block text-sm font-medium text-gray-700">Movie Name</label>
+      <input 
+        type="text" 
+        id="name" 
+        formControlName="name"
+        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-[#F1B434] focus:outline-none focus:ring-1 focus:ring-[#F1B434]"
+      >
+
+    </div>
+
+    <!-- Genre -->
+    <div>
+      <label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
+      <input 
+        type="text" 
+        id="genre" 
+        formControlName="genre"
+        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-[#F1B434] focus:outline-none focus:ring-1 focus:ring-[#F1B434]"
+      >
+    </div>
+
+    <!-- Duration -->
+    <div>
+      <label for="duration" class="block text-sm font-medium text-gray-700">Duration</label>
+      <input 
+        type="text" 
+        id="duration" 
+        formControlName="duration"
+        placeholder="eg. 2 hr 30 mins"
+        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-[#F1B434] focus:outline-none focus:ring-1 focus:ring-[#F1B434]"
+      >
+    </div>
+
+    <!-- Theatre Selection -->
+    <div>
+        <label for="theatre" class="block text-sm font-medium text-gray-700">Theatre</label>
+        <select 
+          id="theatre" 
+          formControlName="theatre"
+          class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-[#F1B434] focus:outline-none focus:ring-1 focus:ring-[#F1B434]"
+        >
+          <option value="">Select a theatre</option>
+          <option *ngFor="let theatre of theatres" [value]="theatre.id">
+            {{ theatre.name }}
+          </option>
+        </select>
+      </div>
+
+    <!-- Description -->
+    <div>
+      <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+      <textarea 
+        id="description" 
+        formControlName="description"
+        rows="3"
+        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-[#F1B434] focus:outline-none focus:ring-1 focus:ring-[#F1B434]"
+      ></textarea>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-end space-x-3 mt-6">
+      <button 
+        type="button" 
+        (click)="onCancel()"
+        class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+      >
+        Cancel
+      </button>
+      <button 
+        type="submit"
+        [disabled]="!movieForm.valid || loading"
+        class="px-4 py-2 bg-[#F1B434] text-[#1B355E] rounded-md hover:bg-[#1B355E] hover:text-[#F1B434] disabled:opacity-50"
+      >
+        {{ loading ? 'Adding...' : 'Add Movie' }}
+      </button>
+    </div>
+  </form>
+</div>
