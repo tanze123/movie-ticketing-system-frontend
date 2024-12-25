@@ -10,6 +10,8 @@ import { AddTheatreDialogComponent } from './admin/theatre/add-theatre-dialog/ad
 import { EditProfileComponent } from './admin/settings/edit-profile/edit-profile.component';
 import { SettingComponent } from './admin/settings/view-setting/setting.component';
 import { EditCutomerDetailsComponent } from './admin/Customer/edit-cutomer-details/edit-cutomer-details.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
     {path:'', component: LoginComponent},
@@ -57,4 +59,6 @@ export const routes: Routes = [
             }
         ]
     },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'reset-password/:token', component: ResetPasswordComponent }
 ];
