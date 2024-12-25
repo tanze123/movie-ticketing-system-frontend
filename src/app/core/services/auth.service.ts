@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+ 
   private TOKEN_KEY = 'access_token';
   private REFRESH_TOKEN_KEY = 'refresh_token';
 
@@ -129,4 +130,13 @@ export class AuthService {
     // Clear any other auth-related data from localStorage
     localStorage.clear();
   }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.apiService.post('/auth/forgot-password', { email });
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.apiService.post('/auth/reset-password', { token, password });
+  }
+  
 }
