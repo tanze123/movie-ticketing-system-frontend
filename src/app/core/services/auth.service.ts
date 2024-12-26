@@ -14,6 +14,7 @@ export class AuthService {
  
   private TOKEN_KEY = 'access_token';
   private REFRESH_TOKEN_KEY = 'refresh_token';
+  private ROLE = 'role';
 
   constructor(
     private apiService: ApiService,
@@ -39,6 +40,18 @@ export class AuthService {
     return localStorage.getItem(this.REFRESH_TOKEN_KEY);
   }
 
+  setRoles(role: string):void{
+    localStorage.setItem(this.ROLE,role);
+  }
+
+  getRoles():string|null{
+    return localStorage.getItem(this.ROLE);
+  }
+
+  removeRoles():void{
+    localStorage.removeItem(this.ROLE);
+  }
+
   // Remove tokens
   removeToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
@@ -47,15 +60,16 @@ export class AuthService {
   removeRefreshToken(): void {
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
   }
+  
 
   // Validate token by calling a protected endpoint
-  validateToken(): Observable<boolean> {  
+  validateToken(): Observable<boolean> {
     return this.apiService.get('/users/self').pipe(
       map(() => true),
-      catchError(() => of(false))
+      catchError(() => of(false)) // Ensure it returns false on error
     );
   }
-
+  
     // Login method
     login(loginData: LoginModel): Observable<LoginResponseModel> {
       return this.apiService.post<LoginResponseModel>('/auth/login', loginData).pipe(
@@ -69,30 +83,27 @@ export class AuthService {
     }
 
     getCurrentUser(): Observable<User> {
-    return this.apiService.get<User>('/users/self').pipe(
-      map((response: any) => {
-        // Create a new User object from the API response
-        const user: User = {
-          id: response?.data?.user.id,
-          // Map other properties from the response
-          email: response?.data?.user.email,
-          name:"Admin"
-          // Add any additional mapping as needed
-        };
+      return this.apiService.get<{ status: boolean, data: { user: User } }>('/users/self').pipe(
+        map((response: any) => {        
+          const user: User = {
+            id: response?.data?.user?.id,
+            email: response?.data?.user?.email,
+            roles: response?.data?.user?.roles, // Ensure this matches the backend
+            name: response?.data?.user?.name,
+          };
         
-        this.userService.setCurrentUser(user);
-        return user;
-      }),
-      catchError((error) => {
-        console.log("test");
-        if(error.status===403){
-          this.router.navigate(['/login']);
-        }
-        return throwError(() => error);
-      })
-    );
-  }
-
+          this.userService.setCurrentUser(user);
+          return user;
+        }),
+        catchError((error) => {
+          if (error.status === 403) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => error);
+        })
+      );
+    }
+    
   refreshToken(): Observable<LoginResponseModel> {
     const refreshToken = this.getRefreshToken();
     
@@ -127,6 +138,7 @@ export class AuthService {
   logout(): void {
     this.removeToken();
     this.removeRefreshToken();
+    this.removeRoles();
     // Clear any other auth-related data from localStorage
     localStorage.clear();
   }
