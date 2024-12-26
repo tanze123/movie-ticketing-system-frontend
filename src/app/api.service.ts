@@ -33,4 +33,9 @@ export class ApiService {
     return this.http.patch<T>(`${this.baseUrl}${endpoint}`, body, options);
   }
 
+
+  getTheatres(): Observable<any[]> {  // Ensure the return type is an array of theatres
+    return this.http.get<any[]>('http://localhost:8080/api/v1/theatres');
+  }
+
 }
