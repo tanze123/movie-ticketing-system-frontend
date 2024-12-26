@@ -1,4 +1,3 @@
-
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -14,43 +13,59 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ViewMovieComponent } from './admin/movie/view-movie/view-movie.component';
 import { AddMovieDialogComponent } from './admin/movie/add-movie-dialog/add-movie-dialog.component';
+import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 
 export const routes: Routes = [
-    {path:'', component: LoginComponent},
-    {path:'login', component: LoginComponent},
-    {path:'signup', component: SignupComponent},
+    { path: '', component: LoginComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'signup', component: SignupComponent },
+
     {
-        path:'dashboard', 
-        component: DashboardComponent, 
+        path: 'user/dashboard',
+        component: UserDashboardComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
         children: [
             {
                 path: '',
                 component: DashboardContentComponent
-            }, 
+            },
             {
                 path: 'setting',
                 component: SettingComponent
             },
             {
-                path: 'dashboard-content',
+                path: 'content',
                 component: DashboardContentComponent
             },
             {
-                path: 'customer-details',
-                component: CustomerDetailsComponent
+                path: 'theatres',
+                component: ViewTheatreComponent,
+                children: [
+                    {
+                        path: 'add',
+                        component: AddTheatreDialogComponent
+                    },
+                    {
+                        path: 'edit',
+                        component: AddTheatreDialogComponent
+                    }
+                ]
             },
+
             {
-                path: 'view-theatres',
-                component: ViewTheatreComponent
+                path: 'customer',
+                component: CustomerDetailsComponent,
+                children: [
+                    {
+                        path: 'edit',
+                        component: EditCutomerDetailsComponent
+                    }
+                ]
             },
-            {
-                path: 'add-theatres',
-                component: AddTheatreDialogComponent
-            }, 
-            {
-                path: 'edit-theatres',
-                component: AddTheatreDialogComponent
-            },
+     
             {
                 path: 'editProfile',
                 component: EditProfileComponent
@@ -67,6 +82,7 @@ export const routes: Routes = [
                 path: 'addMovie',
                 component: AddMovieDialogComponent
             }
+
         ]
     },
     { path: 'forgot-password', component: ForgotPasswordComponent },

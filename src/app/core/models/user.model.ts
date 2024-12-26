@@ -3,7 +3,7 @@ export interface User {
     name: string;
     email: string;
     phoneNumber?: string;
-    role?: string;
+    roles: string;
     enabled?: boolean;
     // Add any other user properties your backend returns
   }
