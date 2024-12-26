@@ -6,6 +6,7 @@ import { AuthService } from '../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../core/models/user.model';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,6 +46,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.checkScreenSize();
+    if(this.authService.getRoles()!="ADMIN"){
+      this.router.navigate(['user/dashboard']);
+    }
   }
 
   private checkScreenSize() {
@@ -65,17 +69,30 @@ export class DashboardComponent implements OnInit {
 
   async logout() {
     try {
-      this.loading = true;
-      await this.authService.logout();
-      this.toastr.success('Logged out successfully');
-      this.router.navigate(['/login']);
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will be logged out of your account.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, logout',
+        cancelButtonText: 'Cancel',
+      });
+  
+      if (result.isConfirmed) {
+        this.loading = true;
+        await this.authService.logout();
+        Swal.fire('Logged out!', 'You have been logged out successfully.', 'success');
+        this.router.navigate(['/login']);
+      } else {
+        Swal.fire('Cancelled', 'You are still logged in.', 'info');
+      }
     } catch (error) {
-      console.error('Logout error:', error);
-      this.toastr.error('Failed to logout');
+      Swal.fire('Error', 'Failed to logout. Please try again.', 'error');
     } finally {
       this.loading = false;
     }
   }
+  
 
   // Method to handle keydown events for accessibility
   @HostListener('keydown', ['$event'])

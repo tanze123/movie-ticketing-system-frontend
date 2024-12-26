@@ -11,7 +11,7 @@ describe('UserDashboardComponent', () => {
       imports: [UserDashboardComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(UserDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
