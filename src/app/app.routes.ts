@@ -81,6 +81,10 @@ export const routes: Routes = [
             {
                 path: 'addMovie',
                 component: AddMovieDialogComponent
+            },
+            {
+                path: 'edit/movie',
+                component: EditCutomerDetailsComponent
             }
 
         ]

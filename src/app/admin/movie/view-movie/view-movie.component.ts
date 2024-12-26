@@ -6,6 +6,8 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ApiService } from '../../../api.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddMovieDialogComponent } from '../add-movie-dialog/add-movie-dialog.component';
+import { EditMovieDialogComponent } from '../edit-movie-dialog/edit-movie-dialog.component';
+import Swal from 'sweetalert2';
 
 interface Movies {
   id: number;
@@ -104,4 +106,73 @@ export class ViewMovieComponent implements OnInit {
       }
     });
   }
+
+   openEditDialog(movie: Movies): void {
+      const dialogRef = this.dialog.open(EditMovieDialogComponent, {
+        width: '800px',
+        data: movie
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.fetchMovies(); // Refresh the theatre list
+        }
+      });
+    }
+
+     deleteMovie(movie: Movies): void {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: `You want to delete ${movie.movieName}?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#1B355E',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const headers = {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            };
+      
+            // Specify responseType as text
+            this.apiService.delete(`/movie/${movie.id}`, { 
+              headers, 
+              responseType: 'text' 
+            }).subscribe({
+              next: (response) => {
+                Swal.fire({
+                  title: 'Deleted!',
+                  text: 'Theatre has been deleted successfully.',
+                  icon: 'success',
+                  confirmButtonColor: '#1B355E'
+                });
+                this.fetchMovies(); // Refresh the list
+              },
+              error: (error) => {
+                // Check if it's actually a successful response
+                if (error.status === 200) {
+                  Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Movie has been deleted successfully.',
+                    icon: 'success',
+                    confirmButtonColor: '#1B355E'
+                  });
+                  this.fetchMovies(); // Refresh the list
+                } else {
+                  Swal.fire({
+                    title: 'Error!',
+                    text: error.error?.message || 'Failed to delete movie',
+                    icon: 'error',
+                    confirmButtonColor: '#1B355E'
+                  });
+                }
+              }
+            });
+          }
+        });
+      }
+
 }
