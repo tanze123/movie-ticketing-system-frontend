@@ -14,6 +14,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ViewMovieComponent } from './admin/movie/view-movie/view-movie.component';
 import { AddMovieDialogComponent } from './admin/movie/add-movie-dialog/add-movie-dialog.component';
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
+import { ContentsComponent } from './user/contents/contents.component';
+import { MoviesComponent } from './user/movies/movies.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -21,9 +23,24 @@ export const routes: Routes = [
     { path: 'signup', component: SignupComponent },
 
     {
-        path: 'user/dashboard',
+        path: 'Userdashboard',
         component: UserDashboardComponent,
-      },
+        children: [
+            {
+                path: '',
+                component: ContentsComponent
+            },
+            {
+                path: 'userContent',
+                component: ContentsComponent
+            },
+            {
+                path: 'movies',
+                 component: MoviesComponent  
+             },
+        ]
+    },
+    
       {
         path: 'dashboard',
         component: DashboardComponent,

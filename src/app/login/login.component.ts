@@ -79,7 +79,7 @@ export class LoginComponent {
     if (roles == 'ADMIN') {
       this.router.navigate(['/dashboard']);
     } else if (roles == 'USER') {
-      this.router.navigate(['/user/dashboard']);
+      this.router.navigate(['/Userdashboard']);
     } 
     this.toastr.success('Login successful', 'Success');
   }
