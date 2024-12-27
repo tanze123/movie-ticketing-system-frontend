@@ -1,0 +1,72 @@
+<nav class="bg-[#1B355E] text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo/Brand -->
+        <div class="flex items-center">
+          <span class="material-icons text-[#F1B434] mr-2">movie</span>
+          <span class="text-xl font-semibold">Movie Tickets</span>
+        </div>
+  
+        <!-- Navigation Links -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a routerLink ="/Userdashboard/userContent" class="text-white hover:text-[#F1B434] transition-colors">Home</a>
+          <a routerLink="/Userdashboard/movies" class="text-white hover:text-[#F1B434] transition-colors">Movies</a>
+          <a href="#" class="text-white hover:text-[#F1B434] transition-colors">Bookings</a>
+        </div>
+  
+        <!-- Profile Dropdown -->
+        <div class="relative" #profileDropdown>
+          <button 
+            (click)="toggleDropdown()"
+            class="flex items-center space-x-3 focus:outline-none">
+            <div class="w-8 h-8 bg-[#F1B434] rounded-full flex items-center justify-center">
+              <span class="text-[#1B355E] font-semibold">{{ (currentUser$ | async)?.name?.charAt(0) || 'U' }}</span>
+            </div>
+            <span class="hidden md:block">{{ (currentUser$ | async)?.name || 'User' }}</span>
+            <span class="material-icons text-sm" [class.rotate-180]="isDropdownOpen">
+              arrow_drop_down
+            </span>
+          </button>
+  
+          <!-- Dropdown Menu -->
+          <div 
+            *ngIf="isDropdownOpen"
+            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+            <!-- Profile Info -->
+            <div class="px-4 py-2 border-b border-gray-100">
+              <p class="text-sm text-[#1B355E] font-semibold">{{ (currentUser$ | async)?.name }}</p>
+              <p class="text-xs text-gray-500">{{ (currentUser$ | async)?.email }}</p>
+            </div>
+            
+            <!-- Menu Items -->
+            <a href="#" 
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+              <span class="material-icons mr-2 text-sm">person</span>
+              View Profile
+            </a>
+            
+            <a href="#" 
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+              <span class="material-icons mr-2 text-sm">edit</span>
+              Update Profile
+            </a>
+            
+            <a href="#" 
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+              <span class="material-icons mr-2 text-sm">delete</span>
+              Delete Account
+            </a>
+            
+            <div class="border-t border-gray-100">
+              <button 
+                (click)="logout()" 
+                class="block w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-gray-100 flex items-center">
+                <span class="material-icons mr-2 text-sm">logout</span>
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>

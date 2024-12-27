@@ -1,0 +1,32 @@
+<div class="p-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Search Bar -->
+      <div class="mb-6 flex justify-between items-center">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search Movies"
+          class="border rounded-md px-4 py-2 focus:outline-none focus:ring-[#1B355E] focus:border-[#1B355E]"
+        />
+      </div>
+  
+      <!-- Movie Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          *ngFor="let movie of movies"
+          class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+          [hidden]="searchTerm && !movie.movieName.toLowerCase().includes(searchTerm.toLowerCase())"
+        >
+          <img src="assets/images/movie-thumbnail.jpg" alt="{{ movie.movieName }}" class="w-full h-48 object-cover" />
+          <div class="p-4">
+            <h3 class="font-semibold text-[#1B355E] mb-2">{{ movie.movieName }}</h3>
+            <p class="text-sm text-gray-600 mb-2">Genre: {{ movie.genre }}</p>
+            <p class="text-sm text-gray-600 mb-4">Duration: {{ movie.duration }}</p>
+            <button class="w-full bg-[#F1B434] hover:bg-[#1B355E] text-[#1B355E] hover:text-[#F1B434] py-2 rounded transition-colors">
+              View More Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

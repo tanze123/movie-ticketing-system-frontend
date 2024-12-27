@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.checkScreenSize();
     if(this.authService.getRoles()!="ADMIN"){
-      this.router.navigate(['user/dashboard']);
+      this.router.navigate(['Userdashboard']);
     }
   }
 
