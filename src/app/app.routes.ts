@@ -17,6 +17,7 @@ import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.com
 import { ContentsComponent } from './user/contents/contents.component';
 import { MoviesComponent } from './user/movies/movies.component';
 import { ViewMovieDetailsComponent } from './user/view-movie-details/view-movie-details.component';
+import { ViewProfileComponent } from './user/profile/view-profile/view-profile.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -40,7 +41,12 @@ export const routes: Routes = [
                  component: MoviesComponent  
              },
              { path: 'moviesDetails/:id',
-             component: ViewMovieDetailsComponent },
+             component: ViewMovieDetailsComponent 
+            },
+            {
+                path: 'view-profile',
+                component: ViewProfileComponent
+            }
         ]
     },
     
