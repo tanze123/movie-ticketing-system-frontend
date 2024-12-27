@@ -1,0 +1,32 @@
+:host {
+    display: block;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Custom scrollbar */
+  :host::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  :host::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  :host::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
+  
+  :host::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  /* Mobile optimization */
+  @media (max-width: 640px) {
+    :host {
+      max-height: 100vh;
+    }
+  }

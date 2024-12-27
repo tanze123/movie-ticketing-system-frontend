@@ -1,0 +1,142 @@
+<div class="p-4 md:p-6 w-full md:w-[70%] mx-auto min-w-0 md:min-w-[800px] max-w-[1200px]">
+    <!-- Header with close button -->
+    <div class="flex justify-between items-center mb-4 md:mb-6">
+      <h2 class="text-xl md:text-2xl font-bold text-[#1B355E]">Movie Details</h2>
+      <button (click)="close()" 
+              class="w-8 h-8 rounded-full flex items-center justify-center 
+                     bg-gray-100 hover:bg-gray-200 transition-colors
+                     focus:outline-none focus:ring-2 focus:ring-[#1B355E]">
+        <span class="material-icons text-[#1B355E]">close</span>
+      </button>
+    </div>
+  
+    <!-- Content Container -->
+    <div class="space-y-4">
+      <!-- Movie Thumbnail -->
+      <div class="w-full h-[200px] md:h-[250px] rounded-xl overflow-hidden">
+        <img 
+          [src]="'assets/images/movie-thumbnail.jpg'"
+          [alt]="movie.movieName"
+          class="w-full h-full object-cover"
+        />
+      </div>
+  
+      <!-- Details Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Movie Information -->
+        <div class="border rounded-lg p-3 md:p-4 bg-white shadow-sm">
+          <h3 class="text-lg md:text-xl font-semibold text-[#1B355E] border-b pb-2 mb-3 md:mb-4">
+            Movie Information
+          </h3>
+          
+          <!-- Movie Details Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            <!-- Left Column -->
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Movie Name</label>
+                <p class="text-sm md:text-base text-[#1B355E] font-medium">{{movie.movieName}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Genre</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.genre}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Release Date</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.releaseDate}}</p>
+              </div>
+            </div>
+  
+            <!-- Right Column -->
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Duration</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.duration}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Language</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.language || 'English'}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Rating</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.rating || 'PG-13'}}</p>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Description -->
+          <div class="mt-3 md:mt-4 pt-3 md:pt-4 border-t">
+            <label class="text-xs md:text-sm text-gray-500 block">Description</label>
+            <p class="text-sm md:text-base text-[#1B355E] mt-1 line-clamp-3">
+              {{movie.description || 'No description available'}}
+            </p>
+          </div>
+        </div>
+  
+        <!-- Theatre Information -->
+        <div class="border rounded-lg p-3 md:p-4 bg-white shadow-sm">
+          <h3 class="text-lg md:text-xl font-semibold text-[#1B355E] border-b pb-2 mb-3 md:mb-4">
+            Theatre Information
+          </h3>
+          
+          <!-- Theatre Details Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            <!-- Left Column -->
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Theatre Name</label>
+                <p class="text-sm md:text-base text-[#1B355E] font-medium">{{movie.theatre.name}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Location</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.theatre.location}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Contact Details</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.theatre.contactDetails}}</p>
+              </div>
+            </div>
+  
+            <!-- Right Column -->
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Seating Capacity</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.theatre.seatingCapacity}} seats</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Screen Number</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.theatre.screenNumber || 'Screen 1'}}</p>
+              </div>
+  
+              <div>
+                <label class="text-xs md:text-sm text-gray-500 block">Show Time</label>
+                <p class="text-sm md:text-base text-[#1B355E]">{{movie.showTime || '6:30 PM'}}</p>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Facilities -->
+          <div class="mt-3 md:mt-4 pt-3 md:pt-4 border-t">
+            <label class="text-xs md:text-sm text-gray-500 block">Facilities</label>
+            <p class="text-sm md:text-base text-[#1B355E] mt-1">{{movie.theatre.facilities}}</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Book Now Button -->
+      <div class="mt-4 md:mt-6 flex justify-center">
+        <button class="w-full sm:w-2/3 md:w-1/2 bg-[#F1B434] text-[#1B355E] py-3 rounded-lg font-semibold 
+                       hover:bg-[#1B355E] hover:text-[#F1B434] transition-colors
+                       focus:outline-none focus:ring-2 focus:ring-[#F1B434] focus:ring-offset-2">
+          Book Now
+        </button>
+      </div>
+    </div>
+  </div>

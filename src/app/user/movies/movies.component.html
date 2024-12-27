@@ -1,32 +1,82 @@
-<div class="p-6">
-    <div class="max-w-7xl mx-auto">
-      <!-- Search Bar -->
-      <div class="mb-6 flex justify-between items-center">
+<div class="bg-[#f8f9fc] min-h-screen py-8">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Enhanced Search Bar -->
+    <div class="mb-8">
+      <div class="relative max-w-md mx-auto">
+        <span class="absolute inset-y-0 left-0 pl-4 flex items-center">
+          <span class="material-icons text-gray-400">search</span>
+        </span>
         <input
           type="text"
           [(ngModel)]="searchTerm"
-          placeholder="Search Movies"
-          class="border rounded-md px-4 py-2 focus:outline-none focus:ring-[#1B355E] focus:border-[#1B355E]"
+          placeholder="Search for movies..."
+          class="w-full pl-12 pr-4 py-4 rounded-xl border-none shadow-md focus:ring-2 focus:ring-[#1B355E] bg-white text-[#1B355E] placeholder-gray-400 transition-shadow"
         />
+        <button 
+          *ngIf="searchTerm"
+          (click)="searchTerm = ''"
+          class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600">
+          <span class="material-icons">close</span>
+        </button>
       </div>
-  
-      <!-- Movie Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div
-          *ngFor="let movie of movies"
-          class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-          [hidden]="searchTerm && !movie.movieName.toLowerCase().includes(searchTerm.toLowerCase())"
-        >
-          <img src="assets/images/movie-thumbnail.jpg" alt="{{ movie.movieName }}" class="w-full h-48 object-cover" />
-          <div class="p-4">
-            <h3 class="font-semibold text-[#1B355E] mb-2">{{ movie.movieName }}</h3>
-            <p class="text-sm text-gray-600 mb-2">Genre: {{ movie.genre }}</p>
-            <p class="text-sm text-gray-600 mb-4">Duration: {{ movie.duration }}</p>
-            <button class="w-full bg-[#F1B434] hover:bg-[#1B355E] text-[#1B355E] hover:text-[#F1B434] py-2 rounded transition-colors">
-              View More Details
-            </button>
+    </div>
+
+    <!-- Movies Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div
+        *ngFor="let movie of movies"
+        [hidden]="searchTerm && !movie.movieName.toLowerCase().includes(searchTerm.toLowerCase())"
+        class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+      >
+        <!-- Movie Poster -->
+        <div class="relative aspect-[2/3] overflow-hidden">
+          <img 
+            src="assets/images/movie-thumbnail.jpg"
+            [alt]="movie.movieName"
+            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" 
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div class="absolute bottom-4 left-4 right-4">
+              <button class="w-full bg-[#F1B434] text-[#1B355E] py-2.5 rounded-lg font-semibold 
+                           hover:bg-[#1B355E] hover:text-[#F1B434] transition-colors">
+                Book Now
+              </button>
+            </div>
           </div>
+        </div>
+
+        <!-- Movie Info -->
+        <div class="p-4">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-semibold text-[#1B355E] text-lg leading-tight">{{ movie.movieName }}</h3>
+            <div class="flex items-center bg-[#f8f9fc] px-2 py-1 rounded-lg">
+              <span class="material-icons text-[#F1B434] text-sm mr-1">star</span>
+              <span class="text-sm font-medium">4.5</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-3 py-1 bg-[#f8f9fc] text-sm rounded-full text-[#1B355E]">{{movie.genre}}</span>
+            <span class="text-sm text-gray-500">{{movie.duration}}</span>
+          </div>
+
+          <!-- View Details Link -->
+          <a (click)="openMovieDetails(movie)" 
+          class="text-[#1B355E] text-sm font-medium hover:text-[#F1B434] transition-colors 
+                         flex items-center justify-center mt-2 cursor-pointer">
+         View Details
+         <span class="material-icons text-sm ml-1">arrow_forward</span>
+       </a>
         </div>
       </div>
     </div>
+
+    <!-- Empty State -->
+    <div *ngIf="movies.length === 0" 
+         class="flex flex-col items-center justify-center py-16 text-center">
+      <span class="material-icons text-5xl text-gray-300 mb-4">movie_off</span>
+      <h3 class="text-xl font-medium text-gray-600 mb-2">No movies found</h3>
+      <p class="text-gray-500">Try adjusting your search</p>
+    </div>
   </div>
+</div>

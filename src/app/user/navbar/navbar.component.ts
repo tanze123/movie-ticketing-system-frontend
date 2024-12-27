@@ -16,9 +16,13 @@ import Swal from 'sweetalert2';
 export class NavbarComponent {
 
     @ViewChild('profileDropdown') profileDropdown!: ElementRef;
+    @ViewChild('notificationDropdown') notificationDropdown!: ElementRef;
     
     currentUser$: Observable<User | null>;
     isDropdownOpen = false;
+    isNotificationsOpen = false;
+    notificationCount = 2; // This should come from your notification service
+    isMobileMenuOpen = false;
   
     constructor(
       private router: Router,
@@ -37,6 +41,22 @@ export class NavbarComponent {
     onDocumentClick(event: MouseEvent) {
       if (this.profileDropdown && !this.profileDropdown.nativeElement.contains(event.target)) {
         this.isDropdownOpen = false;
+      }
+    }
+    
+    toggleNotifications() {
+      this.isNotificationsOpen = !this.isNotificationsOpen;
+      this.isDropdownOpen = false;
+    }
+
+    // Add click outside handler for notifications
+    @HostListener('document:click', ['$event'])
+    clickOutside(event: Event) {
+      if (!this.profileDropdown.nativeElement.contains(event.target)) {
+        this.isDropdownOpen = false;
+      }
+      if (!this.notificationDropdown.nativeElement.contains(event.target)) {
+        this.isNotificationsOpen = false;
       }
     }
     
@@ -62,5 +82,12 @@ export class NavbarComponent {
       Swal.fire('Error', 'Failed to logout. Please try again.', 'error');
     } finally {
     }
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    // Close other dropdowns when mobile menu is toggled
+    this.isDropdownOpen = false;
+    this.isNotificationsOpen = false;
   }
 }
