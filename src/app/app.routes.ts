@@ -16,6 +16,7 @@ import { AddMovieDialogComponent } from './admin/movie/add-movie-dialog/add-movi
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { ContentsComponent } from './user/contents/contents.component';
 import { MoviesComponent } from './user/movies/movies.component';
+import { ViewMovieDetailsComponent } from './user/view-movie-details/view-movie-details.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -38,6 +39,8 @@ export const routes: Routes = [
                 path: 'movies',
                  component: MoviesComponent  
              },
+             { path: 'moviesDetails/:id',
+             component: ViewMovieDetailsComponent },
         ]
     },
     

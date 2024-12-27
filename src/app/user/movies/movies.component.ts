@@ -2,8 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ViewMovieComponent } from 'app/admin/movie/view-movie/view-movie.component';
 import { ApiService } from 'app/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { ViewMovieDetailsComponent } from '../view-movie-details/view-movie-details.component';
 
 interface Movies {
   id: number;
@@ -15,6 +18,10 @@ interface Movies {
   theatre: {
     id: number;
     name: string;
+    location: string;
+    seatingCapacity: number;
+    facilities: string;
+    contactDetails: string;
     // Add other fields from the Theatre entity as needed
   };
 }
@@ -34,7 +41,18 @@ export class MoviesComponent {
   constructor(
     private apiService: ApiService,
     private toastr: ToastrService,
+    private dialog: MatDialog
+    
   ) {}
+
+  openMovieDetails(movie: any): void {
+    this.dialog.open(ViewMovieDetailsComponent, {
+      width: '70%',
+      maxWidth: '1500px',
+      data: movie,
+      panelClass: 'custom-dialog-container'
+    });
+  }
 
   ngOnInit(): void {
     this.fetchMovies();
