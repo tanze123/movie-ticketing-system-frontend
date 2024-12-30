@@ -54,7 +54,7 @@ export class EditMovieDialogComponent implements OnInit {
       genre: ['', [Validators.required]],
       duration: ['', [Validators.required]],
       description: [''],
-      theatre: ['', [Validators.required]]
+      theatre: [null, [Validators.required]]
     });
   }
 
@@ -66,7 +66,7 @@ export class EditMovieDialogComponent implements OnInit {
         genre: this.data.genre,
         duration: this.data.duration,
         description: this.data.description,
-        theatre: this.data.theatre?.id  // Ensure theatre ID is patched
+        theatre: this.data.theatre // Ensure theatre ID is patched
       });
     }
     this.loadTheatres(); // Ensure theatres are loaded
