@@ -16,6 +16,7 @@ interface MovieRequest {
   description: string;
   theatre: {
     id: number;
+    name: string;
   };
 }
 
@@ -128,4 +129,5 @@ export class AddMovieDialogComponent implements OnInit {
       this.dialogRef.close();
     }
   }
+  
 }
