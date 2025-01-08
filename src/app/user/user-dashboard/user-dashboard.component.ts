@@ -7,11 +7,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NavbarComponent } from "../navbar/navbar.component";
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, FooterComponent],
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css']
 })
