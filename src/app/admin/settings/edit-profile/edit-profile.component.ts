@@ -108,6 +108,5 @@ profileForm: FormGroup;
 
   onCancel(): void {
     this.dialogRef.close(false);
-  }
-
+  }
 }

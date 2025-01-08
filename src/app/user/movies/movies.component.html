@@ -37,8 +37,9 @@
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
             <div class="absolute bottom-4 left-4 right-4">
-              <button class="w-full bg-[#F1B434] text-[#1B355E] py-2.5 rounded-lg font-semibold 
-                           hover:bg-[#1B355E] hover:text-[#F1B434] transition-colors">
+              <button 
+                (click)="bookNow(movie)" 
+                class="w-full bg-[#F1B434] text-[#1B355E] py-2.5 rounded-lg font-semibold hover:bg-[#1B355E] hover:text-[#F1B434] transition-colors">
                 Book Now
               </button>
             </div>
@@ -70,7 +71,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- Empty State -->
     <div *ngIf="movies.length === 0" 
          class="flex flex-col items-center justify-center py-16 text-center">

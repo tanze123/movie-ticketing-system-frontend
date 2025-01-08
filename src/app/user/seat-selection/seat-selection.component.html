@@ -1,0 +1,79 @@
+<div class="bg-gray">
+<div class="container mx-auto p-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <!-- Left Section: Movie Details -->
+    <div class="movie-details bg-white rounded-xl shadow-lg p-8 space-y-6">
+      <div class="movie-image rounded-lg overflow-hidden">
+        <img src="assets/images/movie-thumbnail.jpg" alt="Movie Poster" class="w-full h-96 object-cover transform transition-all duration-500 hover:scale-105">
+      </div>
+      <div class="movie-info space-y-4">
+        <h2 class="text-4xl font-semibold text-gray-900">Movie Title</h2>
+        <p class="text-lg text-gray-600 leading-relaxed">
+          This is a brief description of the movie, providing essential details to attract the viewer’s attention. It can include the plot, cast, and other relevant details that might entice the audience to book a seat.
+        </p>
+        <div class="release-date text-sm text-gray-500"><strong>Release Date:</strong> January 2025</div>
+        <div class="genre text-sm text-gray-500"><strong>Genre:</strong> Action, Adventure</div>
+      </div>
+    </div>
+
+       <!-- Right Section: Screen and Seat Selection -->
+       <div class="screen-and-seats bg-white rounded-xl shadow-lg p-8">
+        <div class="screen mb-6 bg-gradient-to-r from-indigo-600 to-indigo-900 h-14 w-80 mx-auto flex justify-center items-center text-white font-bold text-lg shadow-xl border-8 border-gray-800 rounded-lg">
+          <h2 class="font-semibold">Screen</h2>
+        </div>
+
+      <!-- Seat Selection -->
+      <div class="seat-selection grid grid-cols-10 gap-6 mb-6">
+        <!-- Render seats in a grid of 10 columns -->
+        <ng-container *ngFor="let seat of seats; let i = index">
+          <!-- Add gap after first 3 rows -->
+          <div *ngIf="i > 0 && i % 30 === 0" class="col-span-10 flex justify-center mb-6">
+            <div class="w-1/2 h-2 bg-gray-800 rounded-md"></div> <!-- Front gap -->
+          </div>
+          <div 
+            class="seat flex items-center justify-center text-xs rounded-md cursor-pointer transition-all duration-200 transform hover:scale-105 hover:shadow-lg"
+            [ngClass]="{
+              'bg-red-500 text-white cursor-not-allowed': seat.status === 'booked',
+              'bg-yellow-500 text-white': selectedSeats.has(seat.seatNumber),
+              'bg-green-500 text-white': seat.status === 'available' && !selectedSeats.has(seat.seatNumber)
+            }"
+            [title]="seat.status === 'booked' ? 'This seat is booked' : seat.status === 'available' && !selectedSeats.has(seat.seatNumber) ? 'Click to select this seat' : 'This seat is selected'"
+            (click)="seat.status !== 'booked' && selectSeat(seat.seatNumber)"
+            style="width: 50px; height: 50px;"> <!-- Square seats -->
+            Seat {{ seat.seatNumber }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fixed Footer for Selected Seats, Book Button, and Legend -->
+<div class="fixed-footer shadow-lg p-4 w-full flex justify-between items-center bottom-0 left-0 z-10">
+  <!-- Seat Status Legend -->
+  <div class="legend flex items-center space-x-4">
+    <div class="flex items-center">
+      <div class="w-6 h-6 bg-red-500 rounded-full mr-2"></div>
+      <span class="text-sm text-gray-700">Booked</span>
+    </div>
+    <div class="flex items-center">
+      <div class="w-6 h-6 bg-yellow-500 rounded-full mr-2"></div>
+      <span class="text-sm text-gray-700">Selected</span>
+    </div>
+    <div class="flex items-center">
+      <div class="w-6 h-6 bg-green-500 rounded-full mr-2"></div>
+      <span class="text-sm text-gray-700">Available</span>
+    </div>
+  </div>
+
+  <div class="selected-seats">
+    <span class="font-semibold text-xl">Selected Seats: </span>
+    <span class="text-lg">{{ getSelectedSeats() }}</span>
+  </div>
+  <button 
+    class="bg-[#1B355E] text-white py-2 px-6 rounded-xl hover:bg-blue-800 transition-all duration-300"
+    (click)="bookTickets()">
+    Book
+  </button>
+</div>
+</div>
