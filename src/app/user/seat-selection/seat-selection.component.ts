@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'app/api.service'; // Import ApiService for API calls
@@ -9,6 +10,14 @@ import { catchError, tap } from 'rxjs/operators';
 interface Seat {
   seatNumber: number;
   status: 'booked' | 'available'; // Seat status: booked or available
+}
+
+interface Movies {
+  id: number; // Assuming each movie has an id
+  movieName: string;
+  genre: string;
+  releaseDate: string;
+  description: string;
 }
 
 @Component({
@@ -22,6 +31,9 @@ export class SeatSelectionComponent implements OnInit {
   theatreId!: number; // To store the theatre ID from the route
   seats: Seat[] = []; // Array to hold the status of the seats
   selectedSeats: Set<number> = new Set(); // To store selected seats by their ID
+  movies: Movies[] = [];
+  loading = false;
+  error: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +46,7 @@ export class SeatSelectionComponent implements OnInit {
     this.movieId = +this.route.snapshot.paramMap.get('movieId')!;
     this.theatreId = +this.route.snapshot.paramMap.get('theatreId')!;
     this.fetchSeats();
+    this.fetchMovies();
   }
 
   // Fetch seats from the backend using the API service
@@ -110,6 +123,40 @@ export class SeatSelectionComponent implements OnInit {
       // Show a single success toast message for all booked seats
       if (bookedSeats.length > 0) {
         this.toastr.success(`Seats ${bookedSeats.join(', ')} booked successfully!`, 'Booking Successful');
+      }
+    });
+  }
+
+  // Fetch movie data
+  private fetchMovies(): void {
+    this.loading = true;
+    this.error = null;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    };
+
+    this.apiService.get<Movies[]>('/movie', { headers, observe: 'response' }).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.Response) {
+          const response = event as HttpResponse<Movies[]>;
+          if (response.body) {
+            // Filter the movies to only include the one with the matching movieId
+            this.movies = response.body.filter(movie => movie.id === this.movieId);
+            console.log('Filtered Movies:', this.movies);
+          }
+          this.loading = false;
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.error = error.message || 'Failed to fetch movie';
+        this.loading = false;
+        this.toastr.error('Failed to fetch movie details');
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
   }
