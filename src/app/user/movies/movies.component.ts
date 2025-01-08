@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';  // Import Router for navigation
 import { MatDialog } from '@angular/material/dialog';
-import { ViewMovieComponent } from 'app/admin/movie/view-movie/view-movie.component';
 import { ApiService } from 'app/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ViewMovieDetailsComponent } from '../view-movie-details/view-movie-details.component';
@@ -30,7 +30,7 @@ interface Movies {
   selector: 'app-movies',
   imports: [CommonModule, FormsModule],
   templateUrl: './movies.component.html',
-  styleUrl: './movies.component.css'
+  styleUrls: ['./movies.component.css']
 })
 export class MoviesComponent {
   movies: Movies[] = [];
@@ -41,9 +41,15 @@ export class MoviesComponent {
   constructor(
     private apiService: ApiService,
     private toastr: ToastrService,
-    private dialog: MatDialog
-    
+    private dialog: MatDialog,
+    private router: Router  // Inject Router for navigation
   ) {}
+
+  // Method to navigate to seat selection with movie and theatre information
+  bookNow(movie: Movies): void {
+    // Navigate to seat selection component, passing the movie ID and theatre ID as parameters
+    this.router.navigate(['/Userdashboard/seat-selection', movie.id, movie.theatre.id]);
+  }
 
   openMovieDetails(movie: any): void {
     this.dialog.open(ViewMovieDetailsComponent, {
@@ -89,18 +95,19 @@ export class MoviesComponent {
       }
     });
   }
-    // Search functionality
-    filterMovies(): Movies[] {
-      if (!this.searchTerm) return this.movies;
+
+  // Search functionality
+  filterMovies(): Movies[] {
+    if (!this.searchTerm) return this.movies;
   
-      return this.movies.filter(movie =>
-        movie.movieName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        movie.genre.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-  
-    // Refresh movie list
-    refreshMovies(): void {
-      this.fetchMovies();
-    }
+    return this.movies.filter(movie =>
+      movie.movieName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      movie.genre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  // Refresh movie list
+  refreshMovies(): void {
+    this.fetchMovies();
+  }
 }

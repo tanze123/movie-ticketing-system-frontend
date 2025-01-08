@@ -18,6 +18,8 @@ import { ContentsComponent } from './user/contents/contents.component';
 import { MoviesComponent } from './user/movies/movies.component';
 import { ViewMovieDetailsComponent } from './user/view-movie-details/view-movie-details.component';
 import { ViewProfileComponent } from './user/profile/view-profile/view-profile.component';
+import { SeatSelectionComponent } from './user/seat-selection/seat-selection.component';
+import { TicketComponent } from './admin/ticket/ticket.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -46,6 +48,10 @@ export const routes: Routes = [
             {
                 path: 'view-profile',
                 component: ViewProfileComponent
+            },
+            {
+                path: 'seat-selection/:movieId/:theatreId',
+                component: SeatSelectionComponent
             }
         ]
     },
@@ -57,6 +63,10 @@ export const routes: Routes = [
             {
                 path: '',
                 component: DashboardContentComponent
+            },
+            {
+                path: 'ticket',
+                component: TicketComponent
             },
             {
                 path: 'setting',

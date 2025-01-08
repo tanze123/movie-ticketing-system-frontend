@@ -1,0 +1,40 @@
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .selected-seats {
+    display: flex;
+    align-items: center;
+  }
+  
+  .selected-seats span {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  
+  .book-button {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 1rem;
+    cursor: pointer;
+  }
+  
+  .book-button:hover {
+    background-color: #2563eb;
+  }
+  
+  .book-button:focus {
+    outline: none;
+  }
+  

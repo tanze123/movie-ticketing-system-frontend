@@ -4,8 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { ApiService } from '../../../api.service';
 import Swal from 'sweetalert2';
-import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
 
 interface User {
   id: string;
@@ -78,7 +78,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   openEditDialog(profile: User): void {
-    const dialogRef = this.dialog.open(EditProfileComponent, {
+    const dialogRef = this.dialog.open(UserEditProfileComponent, {
       width: '800px',
       data: profile
     });
@@ -144,5 +144,4 @@ export class ViewProfileComponent implements OnInit {
         }
       });
     }
-
 }
