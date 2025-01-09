@@ -20,6 +20,8 @@ import { ViewMovieDetailsComponent } from './user/view-movie-details/view-movie-
 import { ViewProfileComponent } from './user/profile/view-profile/view-profile.component';
 import { SeatSelectionComponent } from './user/seat-selection/seat-selection.component';
 import { TicketComponent } from './admin/ticket/ticket.component';
+import { BookingsComponent } from './user/bookings/bookings.component';
+import { ViewTicketComponent } from './user/view-ticket/view-ticket.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -41,6 +43,14 @@ export const routes: Routes = [
             {
                 path: 'movies',
                  component: MoviesComponent  
+             },
+            {
+                path: 'bookings',
+                 component: BookingsComponent  
+             },
+            {
+                path: 'ticket/:id',
+                 component: ViewTicketComponent  
              },
              { path: 'moviesDetails/:id',
              component: ViewMovieDetailsComponent 
