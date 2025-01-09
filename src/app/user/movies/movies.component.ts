@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from 'app/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ViewMovieDetailsComponent } from '../view-movie-details/view-movie-details.component';
+import { environment } from 'app/environment';
 
 interface Movies {
   id: number;
@@ -15,6 +16,7 @@ interface Movies {
   releaseDate: string;
   duration: string;
   description: string;
+  image: string | null;
   theatre: {
     id: number;
     name: string;
@@ -43,7 +45,7 @@ export class MoviesComponent {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private router: Router  // Inject Router for navigation
-  ) {}
+  ) { }
 
   // Method to navigate to seat selection with movie and theatre information
   bookNow(movie: Movies): void {
@@ -67,12 +69,12 @@ export class MoviesComponent {
   private fetchMovies(): void {
     this.loading = true;
     this.error = null;
-  
+
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
     };
-  
+
     this.apiService.get<Movies[]>('/movie', { headers, observe: 'response' }).subscribe({
       next: (event) => {
         if (event.type === HttpEventType.Response) {
@@ -99,7 +101,7 @@ export class MoviesComponent {
   // Search functionality
   filterMovies(): Movies[] {
     if (!this.searchTerm) return this.movies;
-  
+
     return this.movies.filter(movie =>
       movie.movieName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       movie.genre.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -110,4 +112,15 @@ export class MoviesComponent {
   refreshMovies(): void {
     this.fetchMovies();
   }
+
+  getMovieImageUrl(movie: { id: number, image: string | null }): string {
+    // Check if movie exists and has an image name
+    if (movie && movie.image) {
+      return `${environment.apiUrl}/files/movie-image/${movie.image}`;
+    }
+
+    // Return a fallback URL or an empty string if no image is available
+    return `${environment.apiUrl}/files/movie-image/default-image.jpg`;
+  }
+
 }

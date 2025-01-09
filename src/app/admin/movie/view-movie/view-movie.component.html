@@ -14,13 +14,13 @@
             class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F1B434] bg-white text-[#1B355E]">
         </div>
         
-        <!-- Add Theatre Button -->
+        <!-- Add Movie Button -->
         <button 
           (click)="openAddMovieDialog()"
           class="flex items-center space-x-2 bg-[#F1B434] hover:bg-[#1B355E] text-[#1B355E] hover:text-[#F1B434] px-4 py-2 rounded-lg transition-colors duration-300">
           <span class="material-icons">add</span>
           <span>Add Movie</span>
-          </button>
+        </button>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B355E]"></div>
     </div>
 
-    <!-- Theatres Table -->
+    <!-- Movies Table -->
     <div *ngIf="movies.length > 0" class="bg-white rounded-lg shadow overflow-hidden">
       <div class="table-container">
         <table class="min-w-full divide-y divide-gray-200">
@@ -41,6 +41,7 @@
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Duration</th>
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Description</th>
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Theatre</th>
+              <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Image</th>
               <th class="px-6 py-3 text-left text-xs font-large uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
@@ -69,15 +70,32 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">{{ movie.theatre.name }}</div>
               </td>
+
+              <td class="px-6 py-4 whitespace-nowrap">
+                <!-- Show image if available, else show the "Add Image" button -->
+                <ng-container *ngIf="movie.image; else noImageTemplate">
+                  <img [src]="getMovieImageUrl(movie)" alt="Movie Image" class="movie-image" />
+                </ng-container>
+                <ng-template #noImageTemplate>
+                  <button 
+                    (click)="openImageDialog(movie)" 
+                    class="bg-[#F1B434] hover:bg-[#1B355E] text-[#1B355E] hover:text-[#F1B434] px-4 py-2 rounded-lg transition-colors duration-300">
+                    Add Image
+                  </button>
+                </ng-template>
+              </td>                          
+              
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button 
-                
-                class="text-blue-600 hover:text-blue-800 mr-2">
-                <span class="material-icons" (click)="openEditDialog(movie)">edit</span>
-            </button>
-                <button  class="text-red-600 hover:text-red-900">
-                  <span class="material-icons" (click)="deleteMovie(movie)">delete</span>
+                  class="text-blue-600 hover:text-blue-800 mr-2" 
+                  (click)="openEditDialog(movie)">
+                  <span class="material-icons">edit</span>
                 </button>
+                <button 
+                  class="text-red-600 hover:text-red-900"
+                  (click)="deleteMovie(movie)">
+                  <span class="material-icons">delete</span>
+                </button>             
               </td>
             </tr>
           </tbody>

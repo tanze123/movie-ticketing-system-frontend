@@ -4,7 +4,10 @@
       <!-- Left Section: Movie Details -->
       <div class="movie-details bg-white rounded-xl shadow-lg p-8 space-y-6">
         <div class="movie-image rounded-lg overflow-hidden">
-          <img src="assets/images/movie-thumbnail.jpg" alt="Movie Poster" class="w-full h-96 object-cover transform transition-all duration-500 hover:scale-105">
+          <img 
+        *ngIf="movie" [src]="getMovieImageUrl(movie)" alt="Movie Image"
+          class="w-full h-full object-cover"
+        />
         </div>
         <div class="movie-info space-y-4">
           <h2 class="text-4xl font-semibold text-gray-900">{{ movie.movieName }}</h2>
@@ -73,4 +76,5 @@
       Book
     </button>
   </div>
+  
 </div>
