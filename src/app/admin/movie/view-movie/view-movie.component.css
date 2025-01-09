@@ -28,3 +28,12 @@
 .table-container::-webkit-scrollbar-thumb:hover {
   background: #1B355E;
 }
+
+/* Custom class to allow the image to keep its original size */
+.movie-image {
+  width: auto;  /* Automatically scale the width based on the original size */
+  height: auto; /* Automatically scale the height based on the original size */
+  max-width: 100%; /* Ensure it doesn't exceed container width */
+  max-height: 200px; /* Optional: Limit the maximum height to prevent it from becoming too large */
+  object-fit: contain; /* Ensure the whole image fits within the area without distortion */
+}

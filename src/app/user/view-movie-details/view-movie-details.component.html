@@ -15,8 +15,7 @@
       <!-- Movie Thumbnail -->
       <div class="w-full h-[200px] md:h-[250px] rounded-xl overflow-hidden">
         <img 
-          [src]="'assets/images/movie-thumbnail.jpg'"
-          [alt]="movie.movieName"
+        *ngIf="movie" [src]="getMovieImageUrl(movie)" alt="Movie Image"
           class="w-full h-full object-cover"
         />
       </div>
@@ -139,4 +138,6 @@
         </button>
       </div>
     </div>
+
   </div>
+  

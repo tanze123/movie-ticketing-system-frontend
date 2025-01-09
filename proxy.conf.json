@@ -1,0 +1,9 @@
+{
+  "/movies/images": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "pathRewrite": {
+      "^/movies/images": "/movies/images"
+    }
+  }
+}

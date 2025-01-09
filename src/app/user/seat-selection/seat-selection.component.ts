@@ -3,6 +3,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'app/api.service'; // Import ApiService for API calls
+import { environment } from 'app/environment';
 import { ToastrService } from 'ngx-toastr'; // Import ToastrService for toast notifications
 import { forkJoin, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -18,6 +19,25 @@ interface Movies {
   genre: string;
   releaseDate: string;
   description: string;
+}
+
+interface Movies {
+  id: number;
+  movieName: string;
+  genre: string;
+  releaseDate: string;
+  duration: string;
+  description: string;
+  image: string | null;
+  theatre: {
+    id: number;
+    name: string;
+    location: string;
+    seatingCapacity: number;
+    facilities: string;
+    contactDetails: string;
+    // Add other fields from the Theatre entity as needed
+  };
 }
 
 @Component({
@@ -39,7 +59,7 @@ export class SeatSelectionComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private toastr: ToastrService // Inject ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Fetch movieId and theatreId from the route parameters
@@ -83,7 +103,7 @@ export class SeatSelectionComponent implements OnInit {
   bookTickets(): void {
     // Prepare the payload for the booking API
     const selectedSeatNumbers = Array.from(this.selectedSeats);
-    
+
     // Collect seat numbers that were successfully booked
     const bookedSeats: number[] = [];
 
@@ -160,4 +180,15 @@ export class SeatSelectionComponent implements OnInit {
       }
     });
   }
+
+  getMovieImageUrl(movie: { id: number, image: string | null }): string {
+    // Check if movie exists and has an image name
+    if (movie && movie.image) {
+      return `${environment.apiUrl}/files/movie-image/${movie.image}`;
+    }
+
+    // Return a fallback URL or an empty string if no image is available
+    return `${environment.apiUrl}/files/movie-image/default-image.jpg`;
+  }
+  
 }
