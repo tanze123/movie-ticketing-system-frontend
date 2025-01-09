@@ -46,4 +46,8 @@ export class ApiService {
   bookTicket(payload: any): Observable<HttpEvent<any>> {
     return this.post('/tickets', payload); // Using the generic post method
   }
+  
+  getTicketDetails(ticketId: number): Observable<any> {
+    return this.get(`/tickets/${ticketId}`);
+  }
 }

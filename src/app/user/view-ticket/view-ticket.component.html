@@ -1,0 +1,127 @@
+<div class="max-w-4xl mx-auto p-6">
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-500 text-white p-4 rounded-lg">
+      <p class="text-center">{{ error }}</p>
+    </div>
+
+    <div class="flex justify-end mb-4">
+        <button 
+          (click)="generatePDF()"  #F1B434
+          class="flex items-center gap-2 bg-[#1B355E] hover:bg-[#2d4872] text-white px-4 py-2 rounded-lg transition-colors duration-300 shadow-md"
+        >
+          <i class="fas fa-download"></i>
+          Download Ticket PDF
+        </button>
+    </div>
+
+    <!-- Ticket Card -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden flex relative">
+        <!-- Main Ticket Section -->
+        <div class="flex-grow">
+            <!-- Logo Section -->
+            <div class="bg-[#F1B434] px-6 py-3 flex justify-between items-center border-b border-gray-100">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-film text-white text-3xl transform hover:scale-110 transition-all duration-300"></i>
+                    <span class="text-white font-extrabold text-xl transform hover:text-yellow-300 transition-all duration-300">B-Movies</span>
+                </div>
+                <img 
+                    src="assets/favicon.png" 
+                    alt="Cinema Logo" 
+                    class="h-10 w-auto transform hover:scale-110 transition-all duration-300"
+                    onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiMxQjM1NUUiLz48L3N2Zz4='"
+                />
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-2 gap-4 p-4">
+                <!-- Movie Title -->
+                <div class="col-span-2">
+                    <h2 class="text-2xl font-bold text-[#1B355E]">{{ ticket.movie.movieName }}</h2>
+                    <p class="text-sm text-gray-600">Movie Ticket</p>
+                </div>
+
+                <!-- Left Column -->
+                <div class="space-y-3">
+                    <!-- Showtime -->
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-calendar text-[#1B355E] text-lg w-6"></i>
+                        <div>
+                            <p class="text-[#1B355E] text-sm font-semibold">SHOWTIME</p>
+                            <p class="text-base">{{ ticket.movie.releaseDate | date }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Theatre -->
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-map-marker-alt text-[#1B355E] text-lg w-6"></i>
+                        <div>
+                            <p class="text-[#1B355E] text-sm font-semibold">THEATRE</p>
+                            <p class="text-base">{{ ticket.movie.theatre.name }}</p>
+                            <p class="text-sm text-gray-600">{{ ticket.movie.theatre.location }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-3">
+                    <!-- Seat Number -->
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-chair text-[#1B355E] text-lg w-6"></i>
+                        <div>
+                            <p class="text-[#1B355E] text-sm font-semibold">SEAT NUMBER</p>
+                            <p class="text-base">{{ ticket.seatNumber }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Ticket Holder -->
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-user text-[#1B355E] text-lg w-6"></i>
+                        <div>
+                            <p class="text-[#1B355E] text-sm font-semibold">TICKET HOLDER</p>
+                            <p class="text-base">{{ ticket.user.name }}</p>
+                            <p class="text-sm text-gray-600">{{ ticket.user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separator with Zig-zag Pattern -->
+        <div class="relative">
+            <div class="absolute top-0 bottom-0 w-4 bg-gray-400">
+                <div class="absolute inset-0 flex flex-col justify-between py-2">
+                    <div *ngFor="let i of [].constructor(12)" class="w-4 h-4">
+                        <div class="w-4 h-4 bg-[#F1B434] transform rotate-45 translate-x-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="w-48 bg-[#1B355E] flex flex-col justify-between p-4 pl-8">
+            <div class="text-white">
+                <p class="font-semibold text-sm">TICKET NUMBER</p>
+                <p class="text-xs">{{ ticket.ticketNumber }}</p>
+            </div>
+            <div class="flex justify-center items-center flex-grow py-4">
+                <!-- Dummy QR Code SVG -->
+                <svg width="120" height="120" viewBox="0 0 120 120" class="bg-white p-2">
+                    <path d="M0,0 h120v120h-120z" fill="none" stroke="black"/>
+                    <rect x="10" y="10" width="40" height="40" fill="black"/>
+                    <rect x="70" y="10" width="40" height="40" fill="black"/>
+                    <rect x="10" y="70" width="40" height="40" fill="black"/>
+                    <rect x="15" y="15" width="30" height="30" fill="white"/>
+                    <rect x="75" y="15" width="30" height="30" fill="white"/>
+                    <rect x="15" y="75" width="30" height="30" fill="white"/>
+                    <rect x="20" y="20" width="20" height="20" fill="black"/>
+                    <rect x="80" y="20" width="20" height="20" fill="black"/>
+                    <rect x="20" y="80" width="20" height="20" fill="black"/>
+                    <!-- Random QR code pattern -->
+                    <rect x="70" y="70" width="10" height="10" fill="black"/>
+                    <rect x="90" y="70" width="10" height="10" fill="black"/>
+                    <rect x="80" y="90" width="10" height="10" fill="black"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>

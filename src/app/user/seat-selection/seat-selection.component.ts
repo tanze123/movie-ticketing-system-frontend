@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'app/api.service'; // Import ApiService for API calls
 import { environment } from 'app/environment';
 import { ToastrService } from 'ngx-toastr'; // Import ToastrService for toast notifications
 import { forkJoin, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 interface Seat {
   seatNumber: number;
@@ -58,8 +59,9 @@ export class SeatSelectionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private toastr: ToastrService // Inject ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // Fetch movieId and theatreId from the route parameters
@@ -101,52 +103,64 @@ export class SeatSelectionComponent implements OnInit {
 
   // Method to book selected seats
   bookTickets(): void {
-    // Prepare the payload for the booking API
     const selectedSeatNumbers = Array.from(this.selectedSeats);
-
-    // Collect seat numbers that were successfully booked
-    const bookedSeats: number[] = [];
-
-    // Make the API calls for all selected seats
-    const bookingRequests = selectedSeatNumbers.map(seatNumber => {
-      const payload = {
-        movie: {
-          id: this.movieId
-        },
-        seatNumber: seatNumber
-      };
-
-      return this.apiService.bookTicket(payload).pipe(
-        // For each successful booking, update UI and track the booked seat
-        tap(response => {
-          bookedSeats.push(seatNumber);
-
-          // Update the seat status immediately in the UI
-          this.seats = this.seats.map(seat =>
-            seat.seatNumber === seatNumber ? { ...seat, status: 'booked' } : seat
-          );
-
-          // Optionally remove the seat from the selected seats set
-          this.selectedSeats.delete(seatNumber);
-        }),
-        // Handle errors for individual requests
-        catchError(error => {
-          console.error('Error booking ticket:', error);
-          this.toastr.error('Failed to book some tickets. Please try again.', 'Booking Failed');
-          return of(null); // Return an empty observable to continue processing other bookings
-        })
-      );
-    });
-
-    // Wait for all booking requests to complete
-    forkJoin(bookingRequests).subscribe(() => {
-      // Show a single success toast message for all booked seats
-      if (bookedSeats.length > 0) {
-        this.toastr.success(`Seats ${bookedSeats.join(', ')} booked successfully!`, 'Booking Successful');
+  
+    Swal.fire({
+      title: 'Are you sure you want to book the selected seats?',
+      text: `You are about to book seats: ${selectedSeatNumbers.join(', ')}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Book Now!',
+      cancelButtonText: 'No, Cancel',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed with booking
+        this.bookSelectedSeats(selectedSeatNumbers);
       }
     });
   }
-
+  
+  bookSelectedSeats(selectedSeatNumbers: number[]): void {
+    const bookedSeats: number[] = [];
+  
+    const bookingRequests = selectedSeatNumbers.map(seatNumber => {
+      const payload = {
+        movie: { id: this.movieId },
+        seatNumber: seatNumber
+      };
+  
+      return this.apiService.bookTicket(payload).pipe(
+        tap(response => {
+          bookedSeats.push(seatNumber);
+  
+          // Update the seat status on the UI
+          this.seats = this.seats.map(seat =>
+            seat.seatNumber === seatNumber ? { ...seat, status: 'booked' } : seat
+          );
+  
+          // Remove seat from selected set
+          this.selectedSeats.delete(seatNumber);
+        }),
+        catchError(error => {
+          console.error('Error booking ticket:', error);
+          this.toastr.error('Failed to book some tickets. Please try again.', 'Booking Failed');
+          return of(null);
+        })
+      );
+    });
+  
+    forkJoin(bookingRequests).subscribe(() => {
+      if (bookedSeats.length > 0) {
+        this.toastr.success(`Seats ${bookedSeats.join(', ')} booked successfully!`, 'Booking Successful');
+        
+        // Redirect to the booking page (or any other page you want)
+        this.router.navigate(['/Userdashboard/bookings']); // Replace '/booking' with the actual route you want
+      }
+    });
+  }
+  
+  
   // Fetch movie data
   private fetchMovies(): void {
     this.loading = true;
