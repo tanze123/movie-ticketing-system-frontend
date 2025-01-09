@@ -4,6 +4,7 @@ import { ApiService } from 'app/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from 'app/environment';
 
 interface Ticket {
   ticketId: number;
@@ -11,6 +12,26 @@ interface Ticket {
   seatNumber: number;
   movieName: string;
   theatreName: string;
+  movie: Movies;
+}
+
+interface Movies {
+  id: number;
+  movieName: string;
+  genre: string;
+  releaseDate: string;
+  duration: string;
+  description: string;
+  image: string | null;
+  theatre: {
+    id: number;
+    name: string;
+    location: string;
+    seatingCapacity: number;
+    facilities: string;
+    contactDetails: string;
+    // Add other fields from the Theatre entity as needed
+  };
 }
 
 @Component({
@@ -20,6 +41,7 @@ interface Ticket {
   styleUrls: ['./bookings.component.css']
 })
 export class BookingsComponent {
+  movie: Movies | null = null;
   tickets: Ticket[] = [];
   loading = false;
   error: string | null = null;
@@ -50,9 +72,12 @@ export class BookingsComponent {
             seatNumber: ticket.seatNumber,
             movieName: ticket.movie.movieName,
             theatreName: ticket.movie.theatre.name,
+            movie: ticket.movie  // Store the full movie object
           }));
+          
           this.loading = false;
         }
+      
       },
       error: (error) => {
         console.error('Error fetching tickets:', error);
@@ -62,8 +87,17 @@ export class BookingsComponent {
       },
     });
   }
+
   // Redirect to view more details on click
   goToTicketDetails(ticketId: number): void {
     this.router.navigate(['/Userdashboard/ticket', ticketId]);
   }
+
+  getMovieImageUrl(movie: Movies): string {
+    if (movie && movie.image) {
+      return `${environment.apiUrl}/files/movie-image/${movie.image}`;
+    }
+     return `${environment.apiUrl}/files/movie-image/default-image.jpg`;
+  }
+    
 }

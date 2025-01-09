@@ -43,33 +43,31 @@ export class EditMovieDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditMovieDialogComponent>,  // Fixed to EditMovieDialogComponent
+    private dialogRef: MatDialogRef<EditMovieDialogComponent>,
     private apiService: ApiService,
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: Movie
   ) {
-    // Initialize the form with 'movieName' instead of 'name'
     this.movieForm = this.fb.group({
-      movieName: ['', [Validators.required]],  // Updated control name to 'movieName'
+      movieName: ['', [Validators.required]],
       genre: ['', [Validators.required]],
       duration: ['', [Validators.required]],
       description: [''],
-      theatre: [null, [Validators.required]]
+      theatre: ['', [Validators.required]] // Changed to string type for ID
     });
   }
 
   ngOnInit() {
     if (this.data) {
-      // Patch values to the form
       this.movieForm.patchValue({
         movieName: this.data.movieName,
         genre: this.data.genre,
         duration: this.data.duration,
         description: this.data.description,
-        theatre: this.data.theatre // Ensure theatre ID is patched
+        theatre: this.data.theatre.id.toString() // Convert ID to string
       });
     }
-    this.loadTheatres(); // Ensure theatres are loaded
+    this.loadTheatres();
   }
 
   loadTheatres(): void {
@@ -96,9 +94,15 @@ export class EditMovieDialogComponent implements OnInit {
       return;
     }
 
+    const formValues = this.movieForm.value;
     const movieData = {
-      ...this.movieForm.value,  // Spread the form values
-      id: this.data.id
+      movieName: formValues.movieName,
+      genre: formValues.genre,
+      duration: formValues.duration,
+      description: formValues.description,
+      theatre: {
+        id: parseInt(formValues.theatre) // Convert string back to number
+      }
     };
 
     const headers = {
@@ -106,13 +110,13 @@ export class EditMovieDialogComponent implements OnInit {
       'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
     };
 
-    // Send the PUT request to update the movie
     this.apiService.put(`/movie/${this.data.id}`, movieData, { headers }).subscribe({
       next: () => {
         this.toastr.success('Movie updated successfully');
-        this.dialogRef.close(true);  // Close the dialog and pass true
+        this.dialogRef.close(true);
       },
       error: (error) => {
+        console.error('Update error:', error); // Add error logging
         this.toastr.error(error.error?.message || 'Failed to update Movie');
       }
     });
